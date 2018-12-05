@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eco.easycook.mapper.EcHealthyfoodMapper" >
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcHealthyfood" >
+    <id column="ec_hid" property="ecHid" jdbcType="INTEGER" />
+    <result column="ec_hfname" property="ecHfname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ec_hid, ec_hfname
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ec_healthyfood
+    where ec_hid = #{ecHid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ec_healthyfood
+    where ec_hid = #{ecHid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcHealthyfood" >
+    insert into ec_healthyfood (ec_hid, ec_hfname)
+    values (#{ecHid,jdbcType=INTEGER}, #{ecHfname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcHealthyfood" >
+    insert into ec_healthyfood
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecHid != null" >
+        ec_hid,
+      </if>
+      <if test="ecHfname != null" >
+        ec_hfname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecHid != null" >
+        #{ecHid,jdbcType=INTEGER},
+      </if>
+      <if test="ecHfname != null" >
+        #{ecHfname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcHealthyfood" >
+    update ec_healthyfood
+    <set >
+      <if test="ecHfname != null" >
+        ec_hfname = #{ecHfname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ec_hid = #{ecHid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcHealthyfood" >
+    update ec_healthyfood
+    set ec_hfname = #{ecHfname,jdbcType=VARCHAR}
+    where ec_hid = #{ecHid,jdbcType=INTEGER}
+  </update>
+</mapper>

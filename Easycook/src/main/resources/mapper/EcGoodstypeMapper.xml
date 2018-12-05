@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eco.easycook.mapper.EcGoodstypeMapper" >
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcGoodstype" >
+    <id column="ec_tid" property="ecTid" jdbcType="INTEGER" />
+    <result column="ec_tname" property="ecTname" jdbcType="VARCHAR" />
+    <result column="ec_tdesc" property="ecTdesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ec_tid, ec_tname, ec_tdesc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ec_goodstype
+    where ec_tid = #{ecTid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ec_goodstype
+    where ec_tid = #{ecTid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcGoodstype" >
+    insert into ec_goodstype (ec_tid, ec_tname, ec_tdesc
+      )
+    values (#{ecTid,jdbcType=INTEGER}, #{ecTname,jdbcType=VARCHAR}, #{ecTdesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcGoodstype" >
+    insert into ec_goodstype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecTid != null" >
+        ec_tid,
+      </if>
+      <if test="ecTname != null" >
+        ec_tname,
+      </if>
+      <if test="ecTdesc != null" >
+        ec_tdesc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecTid != null" >
+        #{ecTid,jdbcType=INTEGER},
+      </if>
+      <if test="ecTname != null" >
+        #{ecTname,jdbcType=VARCHAR},
+      </if>
+      <if test="ecTdesc != null" >
+        #{ecTdesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcGoodstype" >
+    update ec_goodstype
+    <set >
+      <if test="ecTname != null" >
+        ec_tname = #{ecTname,jdbcType=VARCHAR},
+      </if>
+      <if test="ecTdesc != null" >
+        ec_tdesc = #{ecTdesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ec_tid = #{ecTid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcGoodstype" >
+    update ec_goodstype
+    set ec_tname = #{ecTname,jdbcType=VARCHAR},
+      ec_tdesc = #{ecTdesc,jdbcType=VARCHAR}
+    where ec_tid = #{ecTid,jdbcType=INTEGER}
+  </update>
+</mapper>

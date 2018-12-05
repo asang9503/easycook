@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eco.easycook.mapper.EcAttentionMapper" >
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcAttention" >
+    <id column="ec_aid" property="ecAid" jdbcType="INTEGER" />
+    <result column="ec_uid" property="ecUid" jdbcType="INTEGER" />
+    <result column="ec_vid" property="ecVid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ec_aid, ec_uid, ec_vid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ec_attention
+    where ec_aid = #{ecAid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ec_attention
+    where ec_aid = #{ecAid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcAttention" >
+    insert into ec_attention (ec_aid, ec_uid, ec_vid
+      )
+    values (#{ecAid,jdbcType=INTEGER}, #{ecUid,jdbcType=INTEGER}, #{ecVid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcAttention" >
+    insert into ec_attention
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecAid != null" >
+        ec_aid,
+      </if>
+      <if test="ecUid != null" >
+        ec_uid,
+      </if>
+      <if test="ecVid != null" >
+        ec_vid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecAid != null" >
+        #{ecAid,jdbcType=INTEGER},
+      </if>
+      <if test="ecUid != null" >
+        #{ecUid,jdbcType=INTEGER},
+      </if>
+      <if test="ecVid != null" >
+        #{ecVid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcAttention" >
+    update ec_attention
+    <set >
+      <if test="ecUid != null" >
+        ec_uid = #{ecUid,jdbcType=INTEGER},
+      </if>
+      <if test="ecVid != null" >
+        ec_vid = #{ecVid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ec_aid = #{ecAid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcAttention" >
+    update ec_attention
+    set ec_uid = #{ecUid,jdbcType=INTEGER},
+      ec_vid = #{ecVid,jdbcType=INTEGER}
+    where ec_aid = #{ecAid,jdbcType=INTEGER}
+  </update>
+</mapper>

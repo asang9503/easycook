@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eco.easycook.mapper.EcUserMapper" >
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcUser" >
+    <id column="ec_uid" property="ecUid" jdbcType="INTEGER" />
+    <result column="ec_username" property="ecUsername" jdbcType="VARCHAR" />
+    <result column="ec_password" property="ecPassword" jdbcType="VARCHAR" />
+    <result column="ec_rid" property="ecRid" jdbcType="INTEGER" />
+    <result column="ec_flag" property="ecFlag" jdbcType="INTEGER" />
+    <result column="ec_sex" property="ecSex" jdbcType="INTEGER" />
+    <result column="ec_address" property="ecAddress" jdbcType="VARCHAR" />
+    <result column="ec_favorite" property="ecFavorite" jdbcType="INTEGER" />
+    <result column="ec_creatname" property="ecCreatname" jdbcType="VARCHAR" />
+    <result column="ec_vip" property="ecVip" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ec_uid, ec_username, ec_password, ec_rid, ec_flag, ec_sex, ec_address, ec_favorite, 
+    ec_creatname, ec_vip
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ec_user
+    where ec_uid = #{ecUid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ec_user
+    where ec_uid = #{ecUid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcUser" >
+    insert into ec_user (ec_uid, ec_username, ec_password, 
+      ec_rid, ec_flag, ec_sex, 
+      ec_address, ec_favorite, ec_creatname, 
+      ec_vip)
+    values (#{ecUid,jdbcType=INTEGER}, #{ecUsername,jdbcType=VARCHAR}, #{ecPassword,jdbcType=VARCHAR}, 
+      #{ecRid,jdbcType=INTEGER}, #{ecFlag,jdbcType=INTEGER}, #{ecSex,jdbcType=INTEGER}, 
+      #{ecAddress,jdbcType=VARCHAR}, #{ecFavorite,jdbcType=INTEGER}, #{ecCreatname,jdbcType=VARCHAR}, 
+      #{ecVip,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcUser" >
+    insert into ec_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecUid != null" >
+        ec_uid,
+      </if>
+      <if test="ecUsername != null" >
+        ec_username,
+      </if>
+      <if test="ecPassword != null" >
+        ec_password,
+      </if>
+      <if test="ecRid != null" >
+        ec_rid,
+      </if>
+      <if test="ecFlag != null" >
+        ec_flag,
+      </if>
+      <if test="ecSex != null" >
+        ec_sex,
+      </if>
+      <if test="ecAddress != null" >
+        ec_address,
+      </if>
+      <if test="ecFavorite != null" >
+        ec_favorite,
+      </if>
+      <if test="ecCreatname != null" >
+        ec_creatname,
+      </if>
+      <if test="ecVip != null" >
+        ec_vip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecUid != null" >
+        #{ecUid,jdbcType=INTEGER},
+      </if>
+      <if test="ecUsername != null" >
+        #{ecUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ecPassword != null" >
+        #{ecPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="ecRid != null" >
+        #{ecRid,jdbcType=INTEGER},
+      </if>
+      <if test="ecFlag != null" >
+        #{ecFlag,jdbcType=INTEGER},
+      </if>
+      <if test="ecSex != null" >
+        #{ecSex,jdbcType=INTEGER},
+      </if>
+      <if test="ecAddress != null" >
+        #{ecAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="ecFavorite != null" >
+        #{ecFavorite,jdbcType=INTEGER},
+      </if>
+      <if test="ecCreatname != null" >
+        #{ecCreatname,jdbcType=VARCHAR},
+      </if>
+      <if test="ecVip != null" >
+        #{ecVip,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcUser" >
+    update ec_user
+    <set >
+      <if test="ecUsername != null" >
+        ec_username = #{ecUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ecPassword != null" >
+        ec_password = #{ecPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="ecRid != null" >
+        ec_rid = #{ecRid,jdbcType=INTEGER},
+      </if>
+      <if test="ecFlag != null" >
+        ec_flag = #{ecFlag,jdbcType=INTEGER},
+      </if>
+      <if test="ecSex != null" >
+        ec_sex = #{ecSex,jdbcType=INTEGER},
+      </if>
+      <if test="ecAddress != null" >
+        ec_address = #{ecAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="ecFavorite != null" >
+        ec_favorite = #{ecFavorite,jdbcType=INTEGER},
+      </if>
+      <if test="ecCreatname != null" >
+        ec_creatname = #{ecCreatname,jdbcType=VARCHAR},
+      </if>
+      <if test="ecVip != null" >
+        ec_vip = #{ecVip,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ec_uid = #{ecUid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcUser" >
+    update ec_user
+    set ec_username = #{ecUsername,jdbcType=VARCHAR},
+      ec_password = #{ecPassword,jdbcType=VARCHAR},
+      ec_rid = #{ecRid,jdbcType=INTEGER},
+      ec_flag = #{ecFlag,jdbcType=INTEGER},
+      ec_sex = #{ecSex,jdbcType=INTEGER},
+      ec_address = #{ecAddress,jdbcType=VARCHAR},
+      ec_favorite = #{ecFavorite,jdbcType=INTEGER},
+      ec_creatname = #{ecCreatname,jdbcType=VARCHAR},
+      ec_vip = #{ecVip,jdbcType=INTEGER}
+    where ec_uid = #{ecUid,jdbcType=INTEGER}
+  </update>
+</mapper>

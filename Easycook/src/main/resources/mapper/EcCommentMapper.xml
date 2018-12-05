@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eco.easycook.mapper.EcCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcComment" >
+    <id column="ec_cid" property="ecCid" jdbcType="INTEGER" />
+    <result column="ec_uid" property="ecUid" jdbcType="INTEGER" />
+    <result column="ec_vid" property="ecVid" jdbcType="INTEGER" />
+    <result column="ec_connent" property="ecConnent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ec_cid, ec_uid, ec_vid, ec_connent
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ec_comment
+    where ec_cid = #{ecCid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ec_comment
+    where ec_cid = #{ecCid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcComment" >
+    insert into ec_comment (ec_cid, ec_uid, ec_vid, 
+      ec_connent)
+    values (#{ecCid,jdbcType=INTEGER}, #{ecUid,jdbcType=INTEGER}, #{ecVid,jdbcType=INTEGER}, 
+      #{ecConnent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcComment" >
+    insert into ec_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecCid != null" >
+        ec_cid,
+      </if>
+      <if test="ecUid != null" >
+        ec_uid,
+      </if>
+      <if test="ecVid != null" >
+        ec_vid,
+      </if>
+      <if test="ecConnent != null" >
+        ec_connent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecCid != null" >
+        #{ecCid,jdbcType=INTEGER},
+      </if>
+      <if test="ecUid != null" >
+        #{ecUid,jdbcType=INTEGER},
+      </if>
+      <if test="ecVid != null" >
+        #{ecVid,jdbcType=INTEGER},
+      </if>
+      <if test="ecConnent != null" >
+        #{ecConnent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcComment" >
+    update ec_comment
+    <set >
+      <if test="ecUid != null" >
+        ec_uid = #{ecUid,jdbcType=INTEGER},
+      </if>
+      <if test="ecVid != null" >
+        ec_vid = #{ecVid,jdbcType=INTEGER},
+      </if>
+      <if test="ecConnent != null" >
+        ec_connent = #{ecConnent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ec_cid = #{ecCid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcComment" >
+    update ec_comment
+    set ec_uid = #{ecUid,jdbcType=INTEGER},
+      ec_vid = #{ecVid,jdbcType=INTEGER},
+      ec_connent = #{ecConnent,jdbcType=VARCHAR}
+    where ec_cid = #{ecCid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="easycook:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>easycook</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="easycook-1.0.0.war">
+      <element id="artifact" artifact-name="easycook:war exploded" />
+    </root>
+  </artifact>
+</component>

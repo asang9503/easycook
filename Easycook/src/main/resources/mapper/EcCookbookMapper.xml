@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eco.easycook.mapper.EcCookbookMapper" >
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcCookbook" >
+    <id column="ec_cid" property="ecCid" jdbcType="INTEGER" />
+    <result column="ec_uid" property="ecUid" jdbcType="INTEGER" />
+    <result column="ec_cname" property="ecCname" jdbcType="VARCHAR" />
+    <result column="typeid" property="typeid" jdbcType="INTEGER" />
+    <result column="ec_material" property="ecMaterial" jdbcType="VARCHAR" />
+    <result column="ec_createtime" property="ecCreatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ec_cid, ec_uid, ec_cname, typeid, ec_material, ec_createtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ec_cookbook
+    where ec_cid = #{ecCid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ec_cookbook
+    where ec_cid = #{ecCid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcCookbook" >
+    insert into ec_cookbook (ec_cid, ec_uid, ec_cname, 
+      typeid, ec_material, ec_createtime
+      )
+    values (#{ecCid,jdbcType=INTEGER}, #{ecUid,jdbcType=INTEGER}, #{ecCname,jdbcType=VARCHAR}, 
+      #{typeid,jdbcType=INTEGER}, #{ecMaterial,jdbcType=VARCHAR}, #{ecCreatetime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcCookbook" >
+    insert into ec_cookbook
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecCid != null" >
+        ec_cid,
+      </if>
+      <if test="ecUid != null" >
+        ec_uid,
+      </if>
+      <if test="ecCname != null" >
+        ec_cname,
+      </if>
+      <if test="typeid != null" >
+        typeid,
+      </if>
+      <if test="ecMaterial != null" >
+        ec_material,
+      </if>
+      <if test="ecCreatetime != null" >
+        ec_createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecCid != null" >
+        #{ecCid,jdbcType=INTEGER},
+      </if>
+      <if test="ecUid != null" >
+        #{ecUid,jdbcType=INTEGER},
+      </if>
+      <if test="ecCname != null" >
+        #{ecCname,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="ecMaterial != null" >
+        #{ecMaterial,jdbcType=VARCHAR},
+      </if>
+      <if test="ecCreatetime != null" >
+        #{ecCreatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcCookbook" >
+    update ec_cookbook
+    <set >
+      <if test="ecUid != null" >
+        ec_uid = #{ecUid,jdbcType=INTEGER},
+      </if>
+      <if test="ecCname != null" >
+        ec_cname = #{ecCname,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        typeid = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="ecMaterial != null" >
+        ec_material = #{ecMaterial,jdbcType=VARCHAR},
+      </if>
+      <if test="ecCreatetime != null" >
+        ec_createtime = #{ecCreatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ec_cid = #{ecCid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcCookbook" >
+    update ec_cookbook
+    set ec_uid = #{ecUid,jdbcType=INTEGER},
+      ec_cname = #{ecCname,jdbcType=VARCHAR},
+      typeid = #{typeid,jdbcType=INTEGER},
+      ec_material = #{ecMaterial,jdbcType=VARCHAR},
+      ec_createtime = #{ecCreatetime,jdbcType=VARCHAR}
+    where ec_cid = #{ecCid,jdbcType=INTEGER}
+  </update>
+</mapper>

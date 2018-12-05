@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eco.easycook.mapper.EcStoryimgMapper" >
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcStoryimg" >
+    <id column="ec_simgid" property="ecSimgid" jdbcType="INTEGER" />
+    <result column="ec_simgurl" property="ecSimgurl" jdbcType="VARCHAR" />
+    <result column="storyid" property="storyid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ec_simgid, ec_simgurl, storyid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ec_storyimg
+    where ec_simgid = #{ecSimgid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ec_storyimg
+    where ec_simgid = #{ecSimgid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcStoryimg" >
+    insert into ec_storyimg (ec_simgid, ec_simgurl, storyid
+      )
+    values (#{ecSimgid,jdbcType=INTEGER}, #{ecSimgurl,jdbcType=VARCHAR}, #{storyid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcStoryimg" >
+    insert into ec_storyimg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecSimgid != null" >
+        ec_simgid,
+      </if>
+      <if test="ecSimgurl != null" >
+        ec_simgurl,
+      </if>
+      <if test="storyid != null" >
+        storyid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecSimgid != null" >
+        #{ecSimgid,jdbcType=INTEGER},
+      </if>
+      <if test="ecSimgurl != null" >
+        #{ecSimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="storyid != null" >
+        #{storyid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcStoryimg" >
+    update ec_storyimg
+    <set >
+      <if test="ecSimgurl != null" >
+        ec_simgurl = #{ecSimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="storyid != null" >
+        storyid = #{storyid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ec_simgid = #{ecSimgid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcStoryimg" >
+    update ec_storyimg
+    set ec_simgurl = #{ecSimgurl,jdbcType=VARCHAR},
+      storyid = #{storyid,jdbcType=INTEGER}
+    where ec_simgid = #{ecSimgid,jdbcType=INTEGER}
+  </update>
+</mapper>

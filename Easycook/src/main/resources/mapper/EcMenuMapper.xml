@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eco.easycook.mapper.EcMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcMenu" >
+    <id column="ec_mid" property="ecMid" jdbcType="INTEGER" />
+    <result column="ec_cid" property="ecCid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ec_mid, ec_cid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ec_menu
+    where ec_mid = #{ecMid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ec_menu
+    where ec_mid = #{ecMid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcMenu" >
+    insert into ec_menu (ec_mid, ec_cid)
+    values (#{ecMid,jdbcType=INTEGER}, #{ecCid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcMenu" >
+    insert into ec_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecMid != null" >
+        ec_mid,
+      </if>
+      <if test="ecCid != null" >
+        ec_cid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecMid != null" >
+        #{ecMid,jdbcType=INTEGER},
+      </if>
+      <if test="ecCid != null" >
+        #{ecCid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcMenu" >
+    update ec_menu
+    <set >
+      <if test="ecCid != null" >
+        ec_cid = #{ecCid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ec_mid = #{ecMid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcMenu" >
+    update ec_menu
+    set ec_cid = #{ecCid,jdbcType=INTEGER}
+    where ec_mid = #{ecMid,jdbcType=INTEGER}
+  </update>
+</mapper>

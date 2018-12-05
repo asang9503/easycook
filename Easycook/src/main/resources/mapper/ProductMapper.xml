@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eco.easycook.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.Product" >
+    <id column="ec_gid" property="ecGid" jdbcType="INTEGER" />
+    <result column="ec_gname" property="ecGname" jdbcType="VARCHAR" />
+    <result column="ec_gtypeid" property="ecGtypeid" jdbcType="INTEGER" />
+    <result column="ec_gprice" property="ecGprice" jdbcType="VARCHAR" />
+    <result column="ec_gmonthsales" property="ecGmonthsales" jdbcType="INTEGER" />
+    <result column="ec_gsales" property="ecGsales" jdbcType="INTEGER" />
+    <result column="ec_ggrade" property="ecGgrade" jdbcType="VARCHAR" />
+    <result column="ec_gdescs" property="ecGdescs" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ec_gid, ec_gname, ec_gtypeid, ec_gprice, ec_gmonthsales, ec_gsales, ec_ggrade, ec_gdescs
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where ec_gid = #{ecGid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where ec_gid = #{ecGid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.Product" >
+    insert into product (ec_gid, ec_gname, ec_gtypeid, 
+      ec_gprice, ec_gmonthsales, ec_gsales, 
+      ec_ggrade, ec_gdescs)
+    values (#{ecGid,jdbcType=INTEGER}, #{ecGname,jdbcType=VARCHAR}, #{ecGtypeid,jdbcType=INTEGER}, 
+      #{ecGprice,jdbcType=VARCHAR}, #{ecGmonthsales,jdbcType=INTEGER}, #{ecGsales,jdbcType=INTEGER}, 
+      #{ecGgrade,jdbcType=VARCHAR}, #{ecGdescs,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ecGid != null" >
+        ec_gid,
+      </if>
+      <if test="ecGname != null" >
+        ec_gname,
+      </if>
+      <if test="ecGtypeid != null" >
+        ec_gtypeid,
+      </if>
+      <if test="ecGprice != null" >
+        ec_gprice,
+      </if>
+      <if test="ecGmonthsales != null" >
+        ec_gmonthsales,
+      </if>
+      <if test="ecGsales != null" >
+        ec_gsales,
+      </if>
+      <if test="ecGgrade != null" >
+        ec_ggrade,
+      </if>
+      <if test="ecGdescs != null" >
+        ec_gdescs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ecGid != null" >
+        #{ecGid,jdbcType=INTEGER},
+      </if>
+      <if test="ecGname != null" >
+        #{ecGname,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGtypeid != null" >
+        #{ecGtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="ecGprice != null" >
+        #{ecGprice,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGmonthsales != null" >
+        #{ecGmonthsales,jdbcType=INTEGER},
+      </if>
+      <if test="ecGsales != null" >
+        #{ecGsales,jdbcType=INTEGER},
+      </if>
+      <if test="ecGgrade != null" >
+        #{ecGgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGdescs != null" >
+        #{ecGdescs,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.Product" >
+    update product
+    <set >
+      <if test="ecGname != null" >
+        ec_gname = #{ecGname,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGtypeid != null" >
+        ec_gtypeid = #{ecGtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="ecGprice != null" >
+        ec_gprice = #{ecGprice,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGmonthsales != null" >
+        ec_gmonthsales = #{ecGmonthsales,jdbcType=INTEGER},
+      </if>
+      <if test="ecGsales != null" >
+        ec_gsales = #{ecGsales,jdbcType=INTEGER},
+      </if>
+      <if test="ecGgrade != null" >
+        ec_ggrade = #{ecGgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGdescs != null" >
+        ec_gdescs = #{ecGdescs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ec_gid = #{ecGid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.Product" >
+    update product
+    set ec_gname = #{ecGname,jdbcType=VARCHAR},
+      ec_gtypeid = #{ecGtypeid,jdbcType=INTEGER},
+      ec_gprice = #{ecGprice,jdbcType=VARCHAR},
+      ec_gmonthsales = #{ecGmonthsales,jdbcType=INTEGER},
+      ec_gsales = #{ecGsales,jdbcType=INTEGER},
+      ec_ggrade = #{ecGgrade,jdbcType=VARCHAR},
+      ec_gdescs = #{ecGdescs,jdbcType=VARCHAR}
+    where ec_gid = #{ecGid,jdbcType=INTEGER}
+  </update>
+</mapper>
