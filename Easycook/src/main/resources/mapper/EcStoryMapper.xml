@@ -8,6 +8,19 @@
     <result column="ec_time" property="ecTime" jdbcType="VARCHAR" />
     <result column="ec_flag" property="ecFlag" jdbcType="INTEGER" />
   </resultMap>
+  <resultMap id="MyResultMap" type="com.eco.easycook.pojo.EcStory" extends="BaseResultMap">
+    <collection property="img" ofType="com.eco.easycook.pojo.EcStoryimg">
+      <id column="ec_simgid" property="ecSimgid" jdbcType="INTEGER" />
+      <result column="ec_simgurl" property="ecSimgurl" jdbcType="VARCHAR" />
+      <result column="storyid" property="storyid" jdbcType="INTEGER" />
+    </collection>
+    <collection property="comments" ofType="com.eco.easycook.pojo.EcComment">
+      <id column="ec_cid" property="ecCid" jdbcType="INTEGER" />
+      <result column="ec_uid" property="ecUid" jdbcType="INTEGER" />
+      <result column="ec_vid" property="ecVid" jdbcType="INTEGER" />
+      <result column="ec_connent" property="ecConnent" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List" >
     ec_sid, ec_uid, ec_scontent, ec_time, ec_flag
   </sql>
@@ -90,4 +103,15 @@
       ec_flag = #{ecFlag,jdbcType=INTEGER}
     where ec_sid = #{ecSid,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByUserId" resultMap="MyResultMap">
+    SELECT * from ec_story st
+       inner JOIN ec_attention att
+       on st.ec_uid = att.ec_vid
+       inner JOIN ec_user us
+       on att.ec_uid = us.ec_uid
+       left JOIN ec_storyimg si
+       on st.ec_sid = si.storyid
+    WHERE att.ec_uid = 1 and st.ec_flag = 2
+  </select>
 </mapper>

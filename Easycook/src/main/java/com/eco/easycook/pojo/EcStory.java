@@ -11,6 +11,26 @@ public class EcStory {
 
     private Integer ecFlag;
 
+    private EcStoryimg img;
+
+    private EcComment comments;
+
+    public EcStoryimg getImg() {
+        return img;
+    }
+
+    public void setImg(EcStoryimg img) {
+        this.img = img;
+    }
+
+    public EcComment getComments() {
+        return comments;
+    }
+
+    public void setComments(EcComment comments) {
+        this.comments = comments;
+    }
+
     public Integer getEcSid() {
         return ecSid;
     }
