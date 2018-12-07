@@ -8,8 +8,6 @@ import com.eco.easycook.util.ResponseVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class EcStoryServiceImpl implements EcStoryService {
 
@@ -23,43 +21,61 @@ public class EcStoryServiceImpl implements EcStoryService {
      * @return
      */
     @Override
-    public ResponseVo<EcStory> showStoryWithAttention(Integer id) {
+    public ResponseVo<EcStory> showStoryWithAttention(Integer id, String type) {
+
 
         //判断前端传来的参数是否可用
-        if (id == null || id == 0) {
-            ResponseVo<EcStory> vo = ResponseVoUtil.setERROR("登陆后才能查看");
+        if (type == null || type == "") {
 
-            return vo;
+            return ResponseVoUtil.setERROR("网络异常请重新刷新");
         } else {
+            ResponseVo<EcStory> vo;
+            switch (type) {
 
-            //查询出对应的故事
-            List<EcStory> list = mapper.selectByUserId(id);
+                 case "关注":
+                     if (id == null || id == 0) {
+                         vo = ResponseVoUtil.setERROR("登陆后才能查看");
+                     } else {
+                         vo = new ResponseVo<>(1000, "success", mapper.selectByUserId(id));
 
-            //非装到返回方法中
-            ResponseVo<EcStory> vo = new ResponseVo<>(2000, "success", list);
+                     }
+                 break;
+                     //查询出最新发布的故事
+                 case "最新": vo = new ResponseVo<>(1000, "success", mapper.selectWithPutTime());
+                 break;
+                 //查询出当前（最火）点赞对多的故事
+                 case "最热": vo = new ResponseVo<>(1000, "success", mapper.selectWithVoteNum());
+                 break;
 
+                 default:
+                     vo = ResponseVoUtil.setERROR("网络异常请重新刷新");
+
+                     break;
+
+            }
+            //封装到返回方法中
             return vo;
         }
 
     }
-
-    /**
-     *
-     * 查询最热的故事（发现故事）
-     * @return
-     */
-    @Override
-    public ResponseVo<EcStory> showStoryWithHot() {
-        return null;
-    }
-
-    /**
-     *
-     * 查询最新的故事（最新故事）
-     * @return
-     */
-    @Override
-    public ResponseVo<EcStory> showStoryWithNew() {
-        return null;
-    }
+//
+//    /**
+//     *
+//     * 查询点赞最多的故事（发现故事）
+//     * @return
+//     */
+//    @Override
+//    public ResponseVo<EcStory> showStoryWithHot() {
+//        return new ResponseVo<>1000, "success", mapper.selectWithVoteNum());
+//    }
+//
+//    /**
+//     *
+//     * 查询最新的故事（最新故事）
+//     * @return
+//     */
+//    @Override
+//    public ResponseVo<EcStory> showStoryWithNew() {
+//        return new ResponseVo<>(1000, "success", mapper.selectWithPutTime());
+//    }
 }

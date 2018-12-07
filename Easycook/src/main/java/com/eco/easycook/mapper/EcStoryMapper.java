@@ -18,4 +18,8 @@ public interface EcStoryMapper {
     int updateByPrimaryKey(EcStory record);
 
     List<EcStory> selectByUserId(Integer id);
+
+    List<EcStory> selectWithVoteNum();
+
+    List<EcStory> selectWithPutTime();
 }

@@ -11,24 +11,35 @@ public class EcStory {
 
     private Integer ecFlag;
 
-    private EcStoryimg img;
+    private Object img;
 
-    private EcComment comments;
+    private EcVote vote;
 
-    public EcStoryimg getImg() {
+    private Object comment;
+
+
+    public Object getImg() {
         return img;
     }
 
-    public void setImg(EcStoryimg img) {
+    public void setImg(Object img) {
         this.img = img;
     }
 
-    public EcComment getComments() {
-        return comments;
+    public Object getComment() {
+        return comment;
     }
 
-    public void setComments(EcComment comments) {
-        this.comments = comments;
+    public void setComment(Object comment) {
+        this.comment = comment;
+    }
+
+    public EcVote getVote() {
+        return vote;
+    }
+
+    public void setVote(EcVote vote) {
+        this.vote = vote;
     }
 
     public Integer getEcSid() {
