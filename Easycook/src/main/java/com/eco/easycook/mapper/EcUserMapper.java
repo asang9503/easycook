@@ -14,4 +14,6 @@ public interface EcUserMapper {
     int updateByPrimaryKeySelective(EcUser record);
 
     int updateByPrimaryKey(EcUser record);
+    
+    EcUser selectByName(String ecUsername);
 }

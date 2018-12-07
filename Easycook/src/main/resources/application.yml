@@ -3,11 +3,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/smallcookies?userSSL=false&serverTimezone=GMT
+    url: jdbc:mysql://120.79.198.64:3306/easycook?userSSL=false&serverTimezone=GMT
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
 mybatis:
+  type-aliases-package: com.eco.easycook.pojo
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

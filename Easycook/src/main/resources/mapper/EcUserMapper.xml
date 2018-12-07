@@ -150,4 +150,8 @@
       ec_vip = #{ecVip,jdbcType=INTEGER}
     where ec_uid = #{ecUid,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByName" resultMap="BaseResultMap">
+  select * from ec_user where ec_username = #{ecUsername}
+  </select>
 </mapper>

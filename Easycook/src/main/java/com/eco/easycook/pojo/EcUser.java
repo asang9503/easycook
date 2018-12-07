@@ -1,6 +1,8 @@
 package com.eco.easycook.pojo;
 
-public class EcUser {
+import java.io.Serializable;
+
+public class EcUser implements Serializable {
     private Integer ecUid;
 
     private String ecUsername;
@@ -99,5 +101,21 @@ public class EcUser {
 
     public void setEcVip(Integer ecVip) {
         this.ecVip = ecVip;
+    }
+    
+    @Override
+    public String toString() {
+        return "EcUser{" +
+                "ecUid=" + ecUid +
+                ", ecUsername='" + ecUsername + '\'' +
+                ", ecPassword='" + ecPassword + '\'' +
+                ", ecRid=" + ecRid +
+                ", ecFlag=" + ecFlag +
+                ", ecSex=" + ecSex +
+                ", ecAddress='" + ecAddress + '\'' +
+                ", ecFavorite=" + ecFavorite +
+                ", ecCreatname='" + ecCreatname + '\'' +
+                ", ecVip=" + ecVip +
+                '}';
     }
 }

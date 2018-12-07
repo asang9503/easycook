@@ -27,7 +27,7 @@ public class SwaggerConfig {
     public Docket createDocket(){
         return new Docket(DocumentationType.SWAGGER_2).//文档的类型
                 apiInfo(apiInfo()).select().//整个在线接口文档的设置
-                apis(RequestHandlerSelectors.basePackage("com.sjw.smallcookies.controller")).//需要生成接口文档的包 使用Swagger的包
+                apis(RequestHandlerSelectors.basePackage("com.eco.easycook.controller")).//需要生成接口文档的包 使用Swagger的包
                 build();
     }
 }
