@@ -3,11 +3,41 @@ package com.eco.easycook.pojo;
 public class EcComment {
     private Integer ecCid;
 
-    private Integer ecUid;
+    private Integer storyId;
 
     private Integer ecVid;
 
     private String ecConnent;
+
+    private String uIconUrl;
+
+    private String userName;
+
+    private Integer uId;
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
+    }
+
+    public String getuIconUrl() {
+        return uIconUrl;
+    }
+
+    public void setuIconUrl(String uIconUrl) {
+        this.uIconUrl = uIconUrl;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Integer getEcCid() {
         return ecCid;
@@ -17,12 +47,12 @@ public class EcComment {
         this.ecCid = ecCid;
     }
 
-    public Integer getEcUid() {
-        return ecUid;
+    public Integer getStoryId() {
+        return storyId;
     }
 
-    public void setEcUid(Integer ecUid) {
-        this.ecUid = ecUid;
+    public void setStoryId(Integer storyId) {
+        this.storyId = storyId;
     }
 
     public Integer getEcVid() {

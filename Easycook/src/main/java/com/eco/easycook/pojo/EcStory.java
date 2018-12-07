@@ -11,6 +11,37 @@ public class EcStory {
 
     private Integer ecFlag;
 
+    private Object img;
+
+    private EcVote vote;
+
+    private Object comment;
+
+
+    public Object getImg() {
+        return img;
+    }
+
+    public void setImg(Object img) {
+        this.img = img;
+    }
+
+    public Object getComment() {
+        return comment;
+    }
+
+    public void setComment(Object comment) {
+        this.comment = comment;
+    }
+
+    public EcVote getVote() {
+        return vote;
+    }
+
+    public void setVote(EcVote vote) {
+        this.vote = vote;
+    }
+
     public Integer getEcSid() {
         return ecSid;
     }

@@ -3,9 +3,11 @@ package com.eco.easycook.pojo;
 public class EcVote {
     private Integer ecId;
 
-    private Integer ecUid;
+    private Integer storyid;
 
     private Integer ecNum;
+
+    private String ecTime;
 
     public Integer getEcId() {
         return ecId;
@@ -15,19 +17,27 @@ public class EcVote {
         this.ecId = ecId;
     }
 
-    public Integer getEcUid() {
-        return ecUid;
-    }
-
-    public void setEcUid(Integer ecUid) {
-        this.ecUid = ecUid;
-    }
-
     public Integer getEcNum() {
         return ecNum;
     }
 
     public void setEcNum(Integer ecNum) {
         this.ecNum = ecNum;
+    }
+
+    public Integer getStoryid() {
+        return storyid;
+    }
+
+    public void setStoryid(Integer storyid) {
+        this.storyid = storyid;
+    }
+
+    public String getEcTime() {
+        return ecTime;
+    }
+
+    public void setEcTime(String ecTime) {
+        this.ecTime = ecTime;
     }
 }
