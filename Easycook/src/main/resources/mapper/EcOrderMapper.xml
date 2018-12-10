@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eco.easycook.mapper.EcOrderMapper">
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcOrder">
+    <id column="ec_oid" jdbcType="INTEGER" property="ecOid" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="ec_oallprice" jdbcType="INTEGER" property="ecOallprice" />
+    <result column="ec_time" jdbcType="TIMESTAMP" property="ecTime" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="goods_num" jdbcType="INTEGER" property="goodsNum" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="ec_state" jdbcType="INTEGER" property="ecState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ec_oid, user_id, ec_oallprice, ec_time, address, goods_num, pay_time, ec_state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ec_order
+    where ec_oid = #{ecOid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ec_order
+    where ec_oid = #{ecOid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcOrder">
+    insert into ec_order (user_id, ec_oallprice,
+      ec_time, address, goods_num, 
+      pay_time, ec_state)
+    values (#{userId,jdbcType=INTEGER}, #{ecOallprice,jdbcType=INTEGER},
+      now(), #{address,jdbcType=VARCHAR}, #{goodsNum,jdbcType=INTEGER},
+      now(), #{ecState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcOrder">
+    insert into ec_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ecOid != null">
+        ec_oid,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="ecOallprice != null">
+        ec_oallprice,
+      </if>
+      <if test="ecTime != null">
+        ec_time,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="goodsNum != null">
+        goods_num,
+      </if>
+      <if test="payTime != null">
+        pay_time,
+      </if>
+      <if test="ecState != null">
+        ec_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ecOid != null">
+        #{ecOid,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ecOallprice != null">
+        #{ecOallprice,jdbcType=INTEGER},
+      </if>
+      <if test="ecTime != null">
+        #{ecTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNum != null">
+        #{goodsNum,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ecState != null">
+        #{ecState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcOrder">
+    update ec_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ecOallprice != null">
+        ec_oallprice = #{ecOallprice,jdbcType=INTEGER},
+      </if>
+      <if test="ecTime != null">
+        ec_time = #{ecTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNum != null">
+        goods_num = #{goodsNum,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ecState != null">
+        ec_state = #{ecState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ec_oid = #{ecOid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcOrder">
+    update ec_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      ec_oallprice = #{ecOallprice,jdbcType=INTEGER},
+      ec_time = #{ecTime,jdbcType=TIMESTAMP},
+      address = #{address,jdbcType=VARCHAR},
+      goods_num = #{goodsNum,jdbcType=INTEGER},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      ec_state = #{ecState,jdbcType=INTEGER}
+    where ec_oid = #{ecOid,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectOrderById" resultMap="BaseResultMap">
+
+    select <include refid="Base_Column_List" />
+    from ec_order
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+</mapper>

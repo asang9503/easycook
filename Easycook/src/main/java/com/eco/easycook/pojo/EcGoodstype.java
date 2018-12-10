@@ -1,11 +1,10 @@
 package com.eco.easycook.pojo;
 
+//商品类型
 public class EcGoodstype {
     private Integer ecTid;
 
     private String ecTname;
-
-    private String ecTdesc;
 
     public Integer getEcTid() {
         return ecTid;
@@ -21,13 +20,5 @@ public class EcGoodstype {
 
     public void setEcTname(String ecTname) {
         this.ecTname = ecTname == null ? null : ecTname.trim();
-    }
-
-    public String getEcTdesc() {
-        return ecTdesc;
-    }
-
-    public void setEcTdesc(String ecTdesc) {
-        this.ecTdesc = ecTdesc == null ? null : ecTdesc.trim();
     }
 }
