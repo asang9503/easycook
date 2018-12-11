@@ -7,7 +7,7 @@ import com.eco.easycook.util.ResultBean;
 public interface UserService {
 	
 	//登录
-	ResultBean login(String name,String password,String ip);
+	ResultBean login(String name, String password, String ip);
 	//检验是否登录
 	ResultBean checkLogin(String token);
 	//注销
