@@ -6,11 +6,9 @@ import com.eco.easycook.pojo.EcStory;
 import com.eco.easycook.service.EcStoryService;
 import io.swagger.annotations.*;
 import org.apache.ibatis.annotations.Param;
-import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
