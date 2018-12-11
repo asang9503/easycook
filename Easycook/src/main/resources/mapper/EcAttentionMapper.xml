@@ -15,9 +15,9 @@
     from ec_attention
     where ec_aid = #{ecAid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByTwoId" parameterType="java.lang.Integer" >
     delete from ec_attention
-    where ec_aid = #{ecAid,jdbcType=INTEGER}
+    where ec_uid = #{ecUid,jdbcType=INTEGER} and ec_vid = #{ecVid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.eco.easycook.pojo.EcAttention" >
     insert into ec_attention (ec_aid, ec_uid, ec_vid
@@ -68,4 +68,9 @@
       ec_vid = #{ecVid,jdbcType=INTEGER}
     where ec_aid = #{ecAid,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByTwoId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from ec_attention when ec_uid = #{ecUid,jdbcType=INTEGER} and ec_vid = #{ecVid,jdbcType=INTEGER}
+  </select>
 </mapper>

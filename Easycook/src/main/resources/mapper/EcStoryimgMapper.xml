@@ -68,4 +68,14 @@
       storyid = #{storyid,jdbcType=INTEGER}
     where ec_simgid = #{ecSimgid,jdbcType=INTEGER}
   </update>
+
+  <insert id="inserts">
+
+    insert into ec_storyimg values
+
+    <foreach collection="list" separator="," item="storyimg">
+      (null,#{storyimg.ec_simgurl},#{storyimg.storyid})
+    </foreach>
+
+  </insert>
 </mapper>
