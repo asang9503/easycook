@@ -6,8 +6,10 @@ import com.eco.easycook.mapper.JedisUtil;
 import com.eco.easycook.pojo.EcComment;
 import com.eco.easycook.service.EcCommentService;
 import com.eco.easycook.util.ResponseVoUtil;
+import com.eco.easycook.util.token.SystemCon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.JedisPool;
 
 
 /**
@@ -19,7 +21,8 @@ public class EcCommentServiceImpl implements EcCommentService {
     @Autowired
     private EcCommentMapper mapper;
 
-    private JedisUtil jedisUtil = new JedisUtil("120.79.198.64",6379,"root");
+    private JedisPool jedisPool = new JedisPool("120.79.198.64",6379);
+    private JedisUtil jedisUtil = new JedisUtil(jedisPool,"root");
 
     /**
      *
@@ -49,7 +52,7 @@ public class EcCommentServiceImpl implements EcCommentService {
     public ResponseVo<EcComment> saveComment(EcComment comment, String token) {
 
         //验证token和前段传来的参数
-        if (jedisUtil.isKey(token) && comment != null) {
+        if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && comment != null) {
 
             return new ResponseVo<>(1000, "success", mapper.insertSelective(comment));
         } else {

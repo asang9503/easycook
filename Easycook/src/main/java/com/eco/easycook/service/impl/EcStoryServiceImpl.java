@@ -6,9 +6,11 @@ import com.eco.easycook.pojo.*;
 import com.eco.easycook.service.EcStoryService;
 import com.eco.easycook.util.EcStoryUtil;
 import com.eco.easycook.util.ResponseVoUtil;
+import com.eco.easycook.util.token.SystemCon;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,8 @@ public class EcStoryServiceImpl implements EcStoryService {
     @Autowired
     private EcStoryUtil tryUtil;
 
-    private JedisUtil jedisUtil = new JedisUtil("120.79.198.64",6379,"root");
+    private JedisPool jedisPool = new JedisPool("120.79.198.64",6379);
+    private JedisUtil jedisUtil = new JedisUtil(jedisPool,"root");
 
 
     /**
@@ -49,7 +52,7 @@ public class EcStoryServiceImpl implements EcStoryService {
     public ResponseVo<EcStory> showStoryWithAttention(String pageNum, String pageSize, Integer id, String token) {
 
         //验证token和前段传来的参数
-        if (jedisUtil.isKey(token) && id != null && id !=0) {
+        if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && id != null && id !=0) {
             //获取故事评论数量
             List<EcComment> list = commentMapper.selectCommentCountById(id);
             //获取关注的故事
@@ -136,7 +139,7 @@ public class EcStoryServiceImpl implements EcStoryService {
     @Override
     public ResponseVo<EcStory> saveStory(EcStory story, String[] fileName, String token) {
 
-        if (jedisUtil.isKey(token) && story != null && fileName[0] !=null) {
+        if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && story != null && fileName[0] !=null) {
 
             List<EcStoryimg> list = new ArrayList<>();
 

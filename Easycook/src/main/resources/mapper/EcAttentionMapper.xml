@@ -71,6 +71,6 @@
 
   <select id="selectByTwoId" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />
-    from ec_attention when ec_uid = #{ecUid,jdbcType=INTEGER} and ec_vid = #{ecVid,jdbcType=INTEGER}
+    from ec_attention where ec_uid = #{ecUid,jdbcType=INTEGER} and ec_vid = #{ecVid,jdbcType=INTEGER}
   </select>
 </mapper>

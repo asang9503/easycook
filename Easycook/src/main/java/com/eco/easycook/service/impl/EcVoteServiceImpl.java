@@ -6,8 +6,10 @@ import com.eco.easycook.mapper.JedisUtil;
 import com.eco.easycook.pojo.EcVote;
 import com.eco.easycook.service.EcVoteService;
 import com.eco.easycook.util.ResponseVoUtil;
+import com.eco.easycook.util.token.SystemCon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.JedisPool;
 
 /**
  * Author:阿桑
@@ -20,8 +22,8 @@ public class EcVoteServiceImpl implements EcVoteService {
     @Autowired
     private EcVoteMapper mapper;
 
-    private JedisUtil jedisUtil = new JedisUtil("120.79.198.64",6379,"root");
-
+    private JedisPool jedisPool = new JedisPool("120.79.198.64",6379);
+    private JedisUtil jedisUtil = new JedisUtil(jedisPool,"root");
     /**
      *
      * @param vote 点赞对象
@@ -31,10 +33,10 @@ public class EcVoteServiceImpl implements EcVoteService {
     public ResponseVo<EcVote> saveVote(EcVote vote, String token) {
 
         //验证token和前段传来的参数
-        if (jedisUtil.isKey(token) && vote != null) {
-
+        if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && vote != null) {
+            //查询是否点过赞
             EcVote vote1 = mapper.selectByTwoId(vote);
-
+            //判断是否点赞
             if (vote1 == null) {
                 return new ResponseVo<>(1000, "success", mapper.insertSelective(vote));
             } else {
