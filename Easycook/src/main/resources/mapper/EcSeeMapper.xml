@@ -77,7 +77,8 @@
         INNER JOIN ec_attention a ON
         a.ec_vid = s.ec_uid AND a.ec_uid = #{userId}
  GROUP BY ec_seestoryid
-  </select>  <select id="selectSeeCount" resultType="com.eco.easycook.pojo.EcSee">
-SELECT COUNT(ec_seestoryid) as counts, ec_seestoryid FROM ec_see GROUP BY  ec_seestoryid
+  </select>
+  <select id="selectSeeCount" resultType="com.eco.easycook.pojo.EcSee">
+SELECT COUNT(ec_seestoryid) as seeCount, ec_seestoryid as ecSeestoryid FROM ec_see GROUP BY  ec_seestoryid
   </select>
 </mapper>

@@ -37,9 +37,10 @@ public class EcStoryServiceImpl implements EcStoryService {
     private EcStoryimgMapper storyimgMapper;
 
     @Autowired
-    private EcStoryUtil tryUtil;
+    private EcStoryUtil storyUtil;
 
     private JedisPool jedisPool = new JedisPool("120.79.198.64",6379);
+
     private JedisUtil jedisUtil = new JedisUtil(jedisPool,"root");
 
 
@@ -62,7 +63,7 @@ public class EcStoryServiceImpl implements EcStoryService {
             //获取故事观看数量
             List<EcSee> listSee = seeMapper.selectSeeCountById(id);
             //调用分页
-            PageInfo<EcStory> info = new PageInfo<>(tryUtil.getStory(lists, list, listSee, listVote));
+            PageInfo<EcStory> info = new PageInfo<>(storyUtil.getStory(lists, list, listSee, listVote));
 
             ResponseVo<EcStory> vo = new ResponseVo<>(1000, "success", info);
 
@@ -101,12 +102,35 @@ public class EcStoryServiceImpl implements EcStoryService {
             //获取故事观看数量
             List<EcSee> listSee = seeMapper.selectSeeCount();
             switch (type) {
-
                 //查询出最新发布的故事
-                case "最新": vo = new ResponseVo<>(1000, "success", tryUtil.getStory(listPutTime, list, listSee, listVote));
+                case "最新":
+                    //获取带有
+                    List<EcStory> newList = storyUtil.getStory(listVoteNum, list, listSee, listVote);
+
+                    //对获取到故事进行点赞最多降序排序（选择排序）
+                    for (int i = 0; i < newList.size(); i++) {
+                        int index = i;
+
+                        for (int j = i + 1; j < newList.size(); j++) {
+                            if (newList.get(index).getEcVoteCount() < newList.get(j).getEcVoteCount()) {
+                                index = j;
+                            }
+                        }
+                        if (index != i) {
+                            List<EcStory> temp = new ArrayList<>();
+                            temp.add(i, newList.get(i));
+                            newList.add(i, newList.get(index));
+                            newList.add(index, temp.get(i));
+                        }
+                    }
+                    //开启分页
+                    PageInfo<EcStory> info = new PageInfo<>(newList);
+
+                    vo = new ResponseVo<>(1000, "success", info);
                     break;
-                //查询出当前（最火）点赞对多的故事
-                case "最热": vo = new ResponseVo<>(1000, "success", tryUtil.getStory(listVoteNum, list, listSee, listVote));
+
+                //查询出最热的故事
+                case "最热": vo = new ResponseVo<>(1000, "success", storyUtil.getStory(listPutTime, list, listSee, listVote));
                     break;
 
                 default:
@@ -139,12 +163,13 @@ public class EcStoryServiceImpl implements EcStoryService {
     @Override
     public ResponseVo<EcStory> saveStory(EcStory story, String[] fileName, String token) {
 
+        //验证token以及前段传来的参数
         if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && story != null && fileName[0] !=null) {
 
             List<EcStoryimg> list = new ArrayList<>();
 
             EcStoryimg storyimg = new EcStoryimg();
-
+            //循环遍历将故事表的id添加到图片对象内
             for (String imgUrl : fileName) {
 
                 storyimg.setEcSimgurl(imgUrl);
@@ -153,7 +178,7 @@ public class EcStoryServiceImpl implements EcStoryService {
 
                 list.add(storyimg);
             }
-
+            //保存图片路径
             storyimgMapper.inserts(list);
 
             return new ResponseVo<>(1000, "success", mapper.insert(story));
