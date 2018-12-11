@@ -43,7 +43,7 @@ public class EcReplyCommentController {
             @ApiImplicitParam(name = "token", value = "用户登录时生成的token", required=true, paramType="query")
 
     })
-    public ResponseVo<EcReplycomment> saveReplyComment(EcReplycomment replycomment, String token) {
+    public ResponseVo<EcReplycomment> saveReplyComment(EcReplycomment replycomment,  @RequestParam(name = "token") String token) {
 
         return service.saveReplyComment(replycomment, token);
 
