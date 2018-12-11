@@ -4,25 +4,25 @@
   <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcVote" >
     <id column="ec_id" property="ecId" jdbcType="INTEGER" />
     <result column="storyid" property="storyid" jdbcType="INTEGER" />
-    <result column="ec_num" property="ecNum" jdbcType="INTEGER" />
+    <result column="ec_uid" property="ecUid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ec_id, storyid, ec_num
+    ec_id, storyid, ec_uid
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByTwoId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from ec_vote
-    where ec_id = #{ecId,jdbcType=INTEGER}
+    where storyid = #{storyid,jdbcType=INTEGER} and ec_uid = #{ecUid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByTwoId" parameterType="java.lang.Integer" >
     delete from ec_vote
-    where ec_id = #{ecId,jdbcType=INTEGER}
+    where storyid = #{storyid,jdbcType=INTEGER} and ec_uid = #{ecUid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.eco.easycook.pojo.EcVote" >
-    insert into ec_vote (ec_id, storyid, ec_num
+    insert into ec_vote (ec_id, storyid, ec_uid
       )
-    values (#{ecId,jdbcType=INTEGER}, #{storyid,jdbcType=INTEGER}, #{ecNum,jdbcType=INTEGER}
+    values (#{ecId,jdbcType=INTEGER}, #{storyid,jdbcType=INTEGER}, #{ecUid,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcVote" >
@@ -34,8 +34,8 @@
       <if test="storyid != null" >
         storyid,
       </if>
-      <if test="ecNum != null" >
-        ec_num,
+      <if test="ecUid != null" >
+        ec_uid,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -45,8 +45,8 @@
       <if test="storyid != null" >
         #{storyid,jdbcType=INTEGER},
       </if>
-      <if test="ecNum != null" >
-        #{ecNum,jdbcType=INTEGER},
+      <if test="ecUid != null" >
+        #{ecUid,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -56,8 +56,8 @@
       <if test="storyid != null" >
         storyid = #{storyid,jdbcType=INTEGER},
       </if>
-      <if test="ecNum != null" >
-        ec_num = #{ecNum,jdbcType=INTEGER},
+      <if test="ecUid != null" >
+        ec_uid = #{ecUid,jdbcType=INTEGER},
       </if>
     </set>
     where ec_id = #{ecId,jdbcType=INTEGER}
@@ -65,7 +65,20 @@
   <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcVote" >
     update ec_vote
     set storyid = #{storyid,jdbcType=INTEGER},
-      ec_num = #{ecNum,jdbcType=INTEGER}
+      ec_uid = #{ecUid,jdbcType=INTEGER}
     where ec_id = #{ecId,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectVoteCountById" resultType="com.eco.easycook.pojo.EcVote">
+    SELECT COUNT(storyid) as voteCount, storyid FROM ec_vote v
+        INNER JOIN ec_story s ON
+        s.ec_sid = v.storyid
+        INNER JOIN ec_attention a ON
+        a.ec_vid = s.ec_uid AND a.ec_uid = #{userId}
+  GROUP BY storyid
+  </select>
+  <select id="selectVoteCount" resultType="com.eco.easycook.pojo.EcVote">
+SELECT COUNT(storyid) as voteCount, storyid FROM ec_vote GROUP BY storyid
+  </select>
 </mapper>

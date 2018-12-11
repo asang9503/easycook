@@ -5,9 +5,17 @@ public class EcVote {
 
     private Integer storyid;
 
-    private Integer ecNum;
+    private Integer ecUid;
 
-    private String ecTime;
+    private Integer voteCount;
+
+    public Integer getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
 
     public Integer getEcId() {
         return ecId;
@@ -15,14 +23,6 @@ public class EcVote {
 
     public void setEcId(Integer ecId) {
         this.ecId = ecId;
-    }
-
-    public Integer getEcNum() {
-        return ecNum;
-    }
-
-    public void setEcNum(Integer ecNum) {
-        this.ecNum = ecNum;
     }
 
     public Integer getStoryid() {
@@ -33,11 +33,11 @@ public class EcVote {
         this.storyid = storyid;
     }
 
-    public String getEcTime() {
-        return ecTime;
+    public Integer getEcUid() {
+        return ecUid;
     }
 
-    public void setEcTime(String ecTime) {
-        this.ecTime = ecTime;
+    public void setEcUid(Integer ecUid) {
+        this.ecUid = ecUid;
     }
 }

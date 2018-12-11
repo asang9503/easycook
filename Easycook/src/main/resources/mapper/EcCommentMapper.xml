@@ -22,7 +22,7 @@
     where ec_cid = #{ecCid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.eco.easycook.pojo.EcComment" >
-    insert into ec_comment (ec_cid, storyid, ec_vid,
+    insert into ec_comment (ec_cid, storyId, ec_vid,
       ec_connent, ec_time)
     values (#{ecCid,jdbcType=INTEGER}, #{storyId,jdbcType=INTEGER}, #{ecVid,jdbcType=INTEGER},
       #{ecConnent,jdbcType=VARCHAR}), now()
@@ -33,7 +33,7 @@
       <if test="ecCid != null" >
         ec_cid,
       </if>
-      <if test="ecUid != null" >
+      <if test="storyId != null" >
         storyid,
       </if>
       <if test="ecVid != null" >
@@ -50,8 +50,8 @@
       <if test="ecCid != null" >
         #{ecCid,jdbcType=INTEGER},
       </if>
-      <if test="ecUid != null" >
-        #{storyid,jdbcType=INTEGER},
+      <if test="storyId != null" >
+        #{storyId,jdbcType=INTEGER},
       </if>
       <if test="ecVid != null" >
         #{ecVid,jdbcType=INTEGER},
@@ -67,8 +67,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcComment" >
     update ec_comment
     <set >
-      <if test="ecUid != null" >
-        storyid = #{ecUid,jdbcType=INTEGER},
+      <if test="storyId != null" >
+        storyid = #{storyId,jdbcType=INTEGER},
       </if>
       <if test="ecVid != null" >
         ec_vid = #{ecVid,jdbcType=INTEGER},
@@ -87,7 +87,7 @@
     where ec_cid = #{ecCid,jdbcType=INTEGER}
   </update>
   
-  <select id="select" resultType="com.eco.easycook.pojo.EcComment">
+  <select id="select" resultType="java.util.HashMap">
 SELECT c.ec_cid as ecCid, c.ec_connent as ecConnent, c.ec_time as ecTime, u.ec_uid as uid, u.ec_username as username
  FROM ec_comment c
  INNER JOIN ec_story s ON
@@ -95,5 +95,18 @@ SELECT c.ec_cid as ecCid, c.ec_connent as ecConnent, c.ec_time as ecTime, u.ec_u
  INNER JOIN ec_user u
 ON u.ec_uid = c.ec_vid AND c.storyid = #{storyid}
 ORDER BY c.ec_time
+  </select>
+
+
+  <select id="selectCommentCountById" resultType="com.eco.easycook.pojo.EcComment">
+    SELECT COUNT(storyid) as counts, storyid FROM ec_comment c
+        INNER JOIN ec_story s ON
+        s.ec_sid = c.storyid
+        INNER JOIN ec_attention a ON
+        a.ec_vid = s.ec_uid AND a.ec_uid = #{userId}
+ GROUP BY storyid
+  </select>
+  <select id="selectCommentCount" resultType="com.eco.easycook.pojo.EcComment">
+SELECT COUNT(storyid) as counts, ec_seestoryid FROM ec_comment GROUP BY  storyid
   </select>
 </mapper>

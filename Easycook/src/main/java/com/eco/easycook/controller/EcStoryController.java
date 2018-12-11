@@ -1,12 +1,15 @@
 package com.eco.easycook.controller;
 
 import com.eco.easycook.ResponseVo.ResponseVo;
+import com.eco.easycook.mapper.EcStoryMapper;
 import com.eco.easycook.pojo.EcStory;
 import com.eco.easycook.service.EcStoryService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
+import org.apache.ibatis.annotations.Param;
+import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,23 +20,56 @@ public class EcStoryController {
     @Autowired
     private EcStoryService service;
 
-    @ApiOperation(value = "查询关注、最新、最热的故事",httpMethod = "GET",notes = "实现展示故事功能" )
-    @RequestMapping("showStoryWithType")
-    public ResponseVo<EcStory> showStoryWithAttention(@ApiParam(name = "id", value = "当前登录用户id") Integer id,
-                                                      @ApiParam(name = "type", value = "当前访问的故事类型", required = true)String type) {
-        return service.showStoryWithAttention(id, type);
+    @Autowired
+    private EcStoryMapper mapper;
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "当前登录用户id", required=true,paramType="query"),
+            @ApiImplicitParam(name = "token", value = "验证登录是否有效", required=true,paramType="query"),
+            @ApiImplicitParam(name = "pageNum", value = "用户当前点击的页码", required=true,paramType="query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页故事数量（默认6）", required=true,paramType="query")
+    })
+    @ApiOperation(value = "查询当前用户关注的故事",httpMethod = "POST",notes = "实现展示故事功能" )
+    @PostMapping("showStoryWithType")
+    public ResponseVo<EcStory> showStoryWithAttention(@Param(value = "pageNum") String pageNum,
+                                                      @Param(value = "pageSize")String pageSize,
+                                                      @Param(value = "id")Integer id,
+                                                      @Param(value = "token")String token) {
+
+        return service.showStoryWithAttention(pageNum, pageSize, id, token);
     }
 
-//    @ApiOperation(value = "查询点赞最多的故事",httpMethod = "GET",notes = "实现展示点赞最多故事功能" )
-//    @RequestMapping("showHotStory")
-//    public ResponseVo<EcStory> showHotStory() {
-//        return service.showStoryWithHot();
-//    }
-//
-//
+    @ApiOperation(value = "查询最新、最热(发现)的故事",httpMethod = "GET",notes = "实现展示故事功能" )
+    @GetMapping("showHotStory")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "当前用户点击的故事类型(最新/最热(发现))", required=true,paramType="query"),
+            @ApiImplicitParam(name = "pageNum", value = "用户当前点击的页码", required=true,paramType="query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页故事数量（默认6）", required=true,paramType="query")
+    })
+    public ResponseVo<EcStory> showHotStory(String pageNum, String pageSize, String type) {
+
+        return service.showStoryWithType(pageNum, pageSize, type);
+    }
+
+
+    @ApiOperation(value = "发布故事",httpMethod = "POST",notes = "实现发布故事功能" )
+    @PostMapping("saveStory")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "ecTitle", value = "故事标题", required=true,paramType="query"),
+            @ApiImplicitParam(name = "ecScontent", value = "故事内容", required=true,paramType="query"),
+            @ApiImplicitParam(name = "ecUid", value = "故事发表用户id、", required=true,paramType="query"),
+            @ApiImplicitParam(name = "imgName", value = "故事发表附带的图片",paramType="query"),
+            @ApiImplicitParam(name = "token", value = "验证登录有效", required=true,paramType="query"),
+    })
+    public ResponseVo<EcStory> saveStory(EcStory story, String[] imgName, String token) {
+        return service.saveStory(story, imgName, token);
+    }
+
+
+
 //    @ApiOperation(value = "查询最新的故事",httpMethod = "GET",notes = "实现展示最新故事功能" )
 //    @RequestMapping("showNewStory")
-//    public ResponseVo<EcStory> showNewStory() {
-//        return service.showStoryWithNew();
+//    public ResponseVo<EcStory> showNewStory(EcStory story) {
+//        return mapper.insert(story) == 0 ? new ResponseVo<>(1000,"success",null) : new ResponseVo<>(1000,"success",null);
 //    }
 }

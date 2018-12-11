@@ -8,5 +8,18 @@ import com.eco.easycook.pojo.EcComment;
  */
 public interface EcCommentService {
 
+    /**
+     *
+     * @param storyid
+     * @return
+     */
     ResponseVo<EcComment> getCommentByStoryId(Integer storyid);
+
+
+    /**
+     *
+     * @param comment 评论对象
+     * @return
+     */
+    ResponseVo<EcComment> saveComment(EcComment comment, String token);
 }

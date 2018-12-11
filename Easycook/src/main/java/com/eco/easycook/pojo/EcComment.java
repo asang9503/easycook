@@ -15,6 +15,26 @@ public class EcComment {
 
     private Integer uId;
 
+    private String ecTime;
+
+    private Integer counts;
+
+    public Integer getCounts() {
+        return counts;
+    }
+
+    public void setCounts(Integer counts) {
+        this.counts = counts;
+    }
+
+    public String getEcTime() {
+        return ecTime;
+    }
+
+    public void setEcTime(String ecTime) {
+        this.ecTime = ecTime;
+    }
+
     public Integer getuId() {
         return uId;
     }

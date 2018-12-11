@@ -18,4 +18,8 @@ public interface EcCommentMapper {
     int updateByPrimaryKey(EcComment record);
 
     List<EcComment> select(Integer storyId);
+
+    List<EcComment> selectCommentCountById(Integer storyId);
+
+    List<EcComment> selectCommentCount();
 }
