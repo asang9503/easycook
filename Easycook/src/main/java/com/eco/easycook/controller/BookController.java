@@ -25,7 +25,7 @@ public class BookController {
     UserService userService;
 
     @PostMapping("addBook")
-    @ApiOperation(value = "添加菜谱第一步",httpMethod = "Post",notes = "需要菜谱名，和菜谱主图返回新增id" )
+    @ApiOperation(value = "添加菜谱第一步",httpMethod = "POST",notes = "需要菜谱名，和菜谱主图返回新增id" )
     ResultBean addBook(EcCookbook book,String token){
         ResultBean resultBean = userService.checkLogin(token);
 
@@ -84,7 +84,7 @@ public class BookController {
 
 
     @PostMapping("delBook")
-    @ApiOperation(value = "根据菜谱id删除菜谱",httpMethod = "Post",notes = "需要菜谱名，和token" )
+    @ApiOperation(value = "根据菜谱id删除菜谱",httpMethod = "POST",notes = "需要菜谱名，和token" )
     ResultBean delBook(Integer cid,String token){
         ResultBean resultBean = userService.checkLogin(token);
 
@@ -97,7 +97,7 @@ public class BookController {
     }
 
     @PostMapping("collect")
-    @ApiOperation(value = "根据菜谱id添加关注",httpMethod = "Post",notes = "需要菜谱名，和token" )
+    @ApiOperation(value = "根据菜谱id添加关注",httpMethod = "POST",notes = "需要菜谱名，和token" )
     ResultBean collectBook(Integer cid,String token){
         ResultBean resultBean = userService.checkLogin(token);
 
@@ -110,7 +110,7 @@ public class BookController {
     }
 
     @PostMapping("delcollect")
-    @ApiOperation(value = "根据菜谱id删除关注",httpMethod = "Post",notes = "需要菜谱名，和token" )
+    @ApiOperation(value = "根据菜谱id删除关注",httpMethod = "POST",notes = "需要菜谱名，和token" )
     ResultBean delCollect(Integer cid,String token){
         ResultBean resultBean = userService.checkLogin(token);
 
