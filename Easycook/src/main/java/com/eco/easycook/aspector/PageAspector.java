@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class PageAspector {
 
-    @Pointcut("execution(* com.eco.easycook.service.impl.*.*List(java.lang.String, java.lang.String,..))")
+    @Pointcut("execution(* com.eco.easycook.service.impl.*.*List(java.lang.Integer, java.lang.Integer,..))")
     public void pointcut() {
 
     }
