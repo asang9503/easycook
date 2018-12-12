@@ -27,6 +27,14 @@ public class ResultUtil {
         resultBean.setMsg(msg);
         return resultBean;
     }
+
+    //我的操作失败
+    public static ResultBean setMyError(String msg){
+        ResultBean resultBean=new ResultBean();
+        resultBean.setCode(SystemCon.RERROR1);
+        resultBean.setMsg(msg);
+        return resultBean;
+    }
     //分页操作
     //操作成功
     public static PageBean setPageOK(int page, int limit, int count, List<Object> data){

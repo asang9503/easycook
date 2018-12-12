@@ -1,24 +1,40 @@
 package com.eco.easycook.pojo;
 
 public class EcCookbook {
-    private Integer ecCid;
+    private Integer ecId;
 
     private Integer ecUid;
 
     private String ecCname;
 
+    private String collect;
+
+    public String getCollect() {
+        return collect;
+    }
+
+    public void setCollect(String collect) {
+        this.collect = collect;
+    }
+
     private Integer typeid;
+
+    private String ecCoverimg;
 
     private String ecMaterial;
 
-    private String ecCreatetime;
+    private String ecContent;
 
-    public Integer getEcCid() {
-        return ecCid;
+    private Integer ecCreatetime;
+
+    private Integer ecFlag;
+
+    public Integer getEcId() {
+        return ecId;
     }
 
-    public void setEcCid(Integer ecCid) {
-        this.ecCid = ecCid;
+    public void setEcId(Integer ecId) {
+        this.ecId = ecId;
     }
 
     public Integer getEcUid() {
@@ -45,6 +61,14 @@ public class EcCookbook {
         this.typeid = typeid;
     }
 
+    public String getEcCoverimg() {
+        return ecCoverimg;
+    }
+
+    public void setEcCoverimg(String ecCoverimg) {
+        this.ecCoverimg = ecCoverimg == null ? null : ecCoverimg.trim();
+    }
+
     public String getEcMaterial() {
         return ecMaterial;
     }
@@ -53,11 +77,27 @@ public class EcCookbook {
         this.ecMaterial = ecMaterial == null ? null : ecMaterial.trim();
     }
 
-    public String getEcCreatetime() {
+    public String getEcContent() {
+        return ecContent;
+    }
+
+    public void setEcContent(String ecContent) {
+        this.ecContent = ecContent == null ? null : ecContent.trim();
+    }
+
+    public Integer getEcCreatetime() {
         return ecCreatetime;
     }
 
-    public void setEcCreatetime(String ecCreatetime) {
-        this.ecCreatetime = ecCreatetime == null ? null : ecCreatetime.trim();
+    public void setEcCreatetime(Integer ecCreatetime) {
+        this.ecCreatetime = ecCreatetime;
+    }
+
+    public Integer getEcFlag() {
+        return ecFlag;
+    }
+
+    public void setEcFlag(Integer ecFlag) {
+        this.ecFlag = ecFlag;
     }
 }
