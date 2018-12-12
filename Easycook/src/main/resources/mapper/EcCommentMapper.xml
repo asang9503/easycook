@@ -107,6 +107,6 @@ ORDER BY c.ec_time
  GROUP BY storyid
   </select>
   <select id="selectCommentCount" resultType="com.eco.easycook.pojo.EcComment">
-SELECT COUNT(storyid) as counts, ec_seestoryid FROM ec_comment GROUP BY  storyid
+SELECT COUNT(storyid) as counts, storyid as storyId FROM ec_comment GROUP BY  storyid
   </select>
 </mapper>

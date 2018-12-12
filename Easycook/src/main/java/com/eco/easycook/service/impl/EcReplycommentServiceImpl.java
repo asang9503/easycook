@@ -6,8 +6,10 @@ import com.eco.easycook.mapper.JedisUtil;
 import com.eco.easycook.pojo.EcReplycomment;
 import com.eco.easycook.service.EcReplycommentService;
 import com.eco.easycook.util.ResponseVoUtil;
+import com.eco.easycook.util.token.SystemCon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.JedisPool;
 
 /**
  * @author Nvarchar
@@ -18,7 +20,8 @@ public class EcReplycommentServiceImpl implements EcReplycommentService {
     @Autowired
     private EcReplycommentMapper mapper;
 
-    private JedisUtil jedisUtil = new JedisUtil("120.79.198.64",6379,"root");
+    private JedisPool jedisPool = new JedisPool("120.79.198.64",6379);
+    private JedisUtil jedisUtil = new JedisUtil(jedisPool,"root");
 
     /**
      *
@@ -30,7 +33,7 @@ public class EcReplycommentServiceImpl implements EcReplycommentService {
     public ResponseVo<EcReplycomment> getReplyComment(Integer storyid, Integer commentid, String token) {
 
         //验证token和前段传来的参数
-        if (jedisUtil.isKey(token) && storyid != null && storyid != 0 && commentid != null && commentid != 0) {
+        if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && storyid != null && storyid != 0 && commentid != null && commentid != 0) {
 
             return new ResponseVo<>(1000, "success", mapper.selectByStoryidAndCommentId(storyid, commentid));
         } else {
@@ -48,7 +51,7 @@ public class EcReplycommentServiceImpl implements EcReplycommentService {
     public ResponseVo<EcReplycomment> saveReplyComment(EcReplycomment replycomment, String token) {
 
         //验证token和前段传来的参数
-        if (jedisUtil.isKey(token) &&replycomment != null) {
+        if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null &&replycomment != null) {
 
             return new ResponseVo<>(1000, "success", mapper.insertSelective(replycomment));
         } else {

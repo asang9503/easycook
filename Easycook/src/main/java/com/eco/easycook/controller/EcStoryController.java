@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(value = "操作故事数据接口", tags = {"故事操作接口"})
+@Api(value = "展示、发布故事数据接口", tags = {"展示、发布故事操作接口"})
 public class EcStoryController {
 
     @Autowired
