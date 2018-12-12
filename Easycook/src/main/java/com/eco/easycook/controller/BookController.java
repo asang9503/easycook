@@ -24,14 +24,15 @@ public class BookController {
     @Autowired
     UserService userService;
 
-    @PostMapping("addBook")
-    @ApiOperation(value = "添加菜谱第一步",httpMethod = "POST",notes = "需要菜谱名，和菜谱主图返回新增id" )
+    @GetMapping("addBook")
+    @ApiOperation(value = "添加菜谱第一步",httpMethod = "GET",notes = "需要菜谱名，和菜谱主图返回新增id" )
     ResultBean addBook(EcCookbook book,String token){
         ResultBean resultBean = userService.checkLogin(token);
-
         if (resultBean.getCode()== SystemCon.ROK){
             EcUser user =(EcUser) resultBean.getData();
             book.setEcUid(user.getEcUid());
+
+            System.out.println(book.getEcCname());
             return bookCookService.addBook(book);
         }
         return resultBean;
