@@ -3,9 +3,7 @@ package com.eco.easycook.controller;
 import com.eco.easycook.ResponseVo.Vo;
 import com.eco.easycook.service.EcShopcarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -19,7 +17,7 @@ public class EcShopcarController {
      * @param uid
      * @return
      */
-    @RequestMapping("/selectShopcarById")
+    @GetMapping("/selectShopcarById")
     public Vo selectShopcarById(int uid) {
 
         return ecShopcarService.selectShopcarById(uid);
@@ -31,7 +29,7 @@ public class EcShopcarController {
      * @param sid
      * @return
      */
-    @RequestMapping("/deleteGoodsBySid")
+    @DeleteMapping("/deleteGoodsBySid")
     public Boolean deleteGoodsBySid(int sid) {
 
         return ecShopcarService.deleteGoodsBySid(sid);

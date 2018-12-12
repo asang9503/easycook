@@ -2,8 +2,11 @@ package com.eco.easycook.controller;
 
 import com.eco.easycook.ResponseVo.Vo;
 import com.eco.easycook.service.EcGoodsService;
+import com.eco.easycook.util.ResultBean;
+import com.eco.easycook.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +21,7 @@ public class EcGoodsController {
      * 查询所有商品信息
       * @return
      */
-    @RequestMapping("/selectAllGoods")
+    @GetMapping("/selectAllGoods")
     public Vo selectAllGoods() {
 
         return ecGoodsService.selectAllGoods();
@@ -29,7 +32,7 @@ public class EcGoodsController {
      * @param typeid
      * @return
      */
-    @RequestMapping("/selectGoodsByType")
+    @GetMapping("/selectGoodsByType")
     public Vo selectGoodsByType(int typeid) {
         return ecGoodsService.selectGoodsByType(typeid);
     }
@@ -40,9 +43,8 @@ public class EcGoodsController {
      * @param gid
      * @return
      */
-    @RequestMapping("/selectGoodsById")
+    @GetMapping("/selectGoodsById")
     public Vo selectGoodsById(int gid) {
-
         return ecGoodsService.selectGoodsById(gid);
     }
 }

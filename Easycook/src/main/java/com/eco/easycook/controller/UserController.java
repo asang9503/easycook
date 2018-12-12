@@ -3,9 +3,8 @@ package com.eco.easycook.controller;
 import com.eco.easycook.pojo.EcUser;
 import com.eco.easycook.service.UserService;
 import com.eco.easycook.util.ResultBean;
-import com.eco.easycook.util.token.CookieUtil;
 import com.eco.easycook.util.token.SystemCon;
-import com.eco.easycook.util.token.TokenUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
+@Api(value = "用户登录注册模块", tags = {"用户登录注册模块"})
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	//登录
-	//@ApiOperation(value = "登录",httpMethod = "GET",notes = "实现用户登录功能")
+	@ApiOperation(value = "登录",httpMethod = "GET",notes = "实现用户登录功能")
 	@PostMapping("userlogin")
 	public ResultBean login(String name, String password, HttpServletRequest request, HttpServletResponse response) {
 		String token= "";
@@ -42,6 +42,7 @@ public class UserController {
 			return userService.checkLogin(token);
 		}
 	}
+	@ApiOperation(value = "用户注册",httpMethod = "POST",notes = "实现用户注册功能" )
 	@PostMapping("userregist")
 	public int regist(EcUser user) {
 		return userService.addUser(user);
@@ -49,7 +50,7 @@ public class UserController {
 	//检查是否登录
 	@PostMapping("userlogincheck")
 	public ResultBean check(String token) {
-		System.out.println(token);
+		//System.out.println(token);
 		//tring tk = CookieUtil.getCk(request, SystemCon.TOKECOOKIE);
 		//ResultBean resultBean = userService.checkLogin(tk);
 		//if (resultBean.getCode() == SystemCon.ROK) {
@@ -67,6 +68,7 @@ public class UserController {
 	}
 	
 	//注销
+	@ApiOperation(value = "注销，退出登录",httpMethod = "POST",notes = "实现用户退出登录功能" )
 	@GetMapping("userloginout")
 	public ResultBean loginOut(String token) {
 		ResultBean resultBean = userService.loginOut(token);

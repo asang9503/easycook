@@ -4,9 +4,7 @@ import com.eco.easycook.ResponseVo.Vo;
 import com.eco.easycook.pojo.EcOrder;
 import com.eco.easycook.service.EcOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -20,7 +18,7 @@ public class EcOrderController {
      * @param gid
      * @return
      */
-    @RequestMapping("/selectOrderById")
+    @GetMapping("/selectOrderById")
     public Vo selectOrderById(int gid) {
 
         return ecOrderService.selectOrderById(gid);
@@ -29,7 +27,7 @@ public class EcOrderController {
     /**
      * 添加订单
      */
-    @RequestMapping("/addOrder")
+    @PostMapping("/addOrder")
     public Vo addOrder(EcOrder ecOrder) {
 
         return ecOrderService.addOrder(ecOrder);
@@ -38,7 +36,7 @@ public class EcOrderController {
     /**
      * 根据订单id删除订单
      */
-    @RequestMapping("/delOrder")
+    @DeleteMapping("/delOrder")
     public Vo delOrder(int oid) {
 
         return ecOrderService.delOrder(oid);

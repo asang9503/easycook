@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 	public ResultBean checkLogin(String token) {
 		String value = jedisUtil.getHash(SystemCon.TOKENHASH,"token:"+token);
 		
-		System.out.println("value:"+value);
+		//System.out.println("value:"+value);
 		if (null != value) {
 			EcUser user = JSON.parseObject(value, EcUser.class);
 			return ResultUtil.setOK("登录有效", user);

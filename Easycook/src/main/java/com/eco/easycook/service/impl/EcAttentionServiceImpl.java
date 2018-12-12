@@ -29,7 +29,7 @@ public class EcAttentionServiceImpl implements EcAttentionService {
      */
     @Override
     public ResponseVo<EcAttention> saveAttention(EcAttention attention, String token) {
-
+        
         //验证token和前段传来的参数
         if (jedisUtil.isKey(token) && attention != null) {
 
