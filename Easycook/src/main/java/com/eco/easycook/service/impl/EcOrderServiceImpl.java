@@ -1,9 +1,14 @@
 package com.eco.easycook.service.impl;
 
+import com.eco.easycook.ResponseVo.ResponseVo;
 import com.eco.easycook.ResponseVo.Vo;
 import com.eco.easycook.mapper.EcOrderMapper;
 import com.eco.easycook.pojo.EcOrder;
 import com.eco.easycook.service.EcOrderService;
+import com.eco.easycook.util.ResponseVoUtil;
+import com.eco.easycook.util.ResultBean;
+import com.eco.easycook.util.ResultUtil;
+import com.eco.easycook.util.token.SystemCon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,42 +19,37 @@ public class EcOrderServiceImpl implements EcOrderService {
     private EcOrderMapper ecOrderMapper;
 
     @Override
-    public Vo selectOrderById(int gid) {
-        Vo vo = new Vo();
+    public ResultBean selectOrderById(int gid) {
+
         if (ecOrderMapper.selectOrderById(gid) != null) {
-            vo.setCode(1000);
-            vo.setData(ecOrderMapper.selectOrderById(gid));
+            return ResultUtil.setOK("查询成功",ecOrderMapper.selectOrderById(gid));
+
         } else {
-            vo.setCode(2000);
+            return ResultUtil.setError(100001,"查询失败",null);
         }
-        return vo;
     }
 
     @Override
-    public Vo addOrder(EcOrder ecOrder) {
+    public ResultBean addOrder(EcOrder ecOrder) {
 
-        Vo vo = new Vo();
+
         if (ecOrderMapper.insert(ecOrder)>0) {
-            vo.setCode(1000);
-            vo.setMsg("添加成功");
+            return ResultUtil.setOK("添加成功",null);
+
         } else {
-            vo.setCode(2000);
-            vo.setMsg("添加失败");
+           return ResultUtil.setError(SystemCon.RERROR1,"添加失败",null);
         }
-        return vo;
+
     }
 
     @Override
-    public Vo delOrder(int oid) {
+    public ResultBean delOrder(int oid) {
 
-        Vo vo = new Vo();
         if (ecOrderMapper.deleteByPrimaryKey(oid)>0) {
-            vo.setCode(1000);
-            vo.setMsg("删除成功");
+            return ResultUtil.setOK("删除成功",null);
+
         } else {
-            vo.setCode(2000);
-            vo.setMsg("删除失败");
+            return ResultUtil.setError(SystemCon.RERROR1,"删除失败",null);
         }
-        return vo;
     }
 }

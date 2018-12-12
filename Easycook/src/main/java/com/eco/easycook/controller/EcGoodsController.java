@@ -1,7 +1,9 @@
 package com.eco.easycook.controller;
 
+import com.eco.easycook.ResponseVo.ResponseVo;
 import com.eco.easycook.ResponseVo.Vo;
 import com.eco.easycook.service.EcGoodsService;
+import com.eco.easycook.util.ResultBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class EcGoodsController {
 
     @GetMapping("/selectAllGoods")
     @ApiOperation(value = "查询所有的商品信息",httpMethod = "GET",notes = "展示所有商品信息" )
-    public Vo selectAllGoods() {
+    public ResultBean selectAllGoods() {
 
         return ecGoodsService.selectAllGoods();
     }
@@ -29,7 +31,7 @@ public class EcGoodsController {
 
     @GetMapping("/selectGoodsByType")
     @ApiOperation(value = "根据商品类型查询商品信息",httpMethod = "GET",notes = "根据商品类型查询商品信息" )
-    public Vo selectGoodsByType(int typeid) {
+    public ResultBean selectGoodsByType(int typeid) {
         return ecGoodsService.selectGoodsByType(typeid);
     }
 
@@ -37,7 +39,7 @@ public class EcGoodsController {
 
     @GetMapping("/selectGoodsById")
     @ApiOperation(value = "根据商品id查询商品详情信息",httpMethod = "GET",notes = "根据商品id查询商品详情信息" )
-    public Vo selectGoodsById(int gid) {
+    public ResultBean selectGoodsById(int gid) {
 
         return ecGoodsService.selectGoodsById(gid);
     }

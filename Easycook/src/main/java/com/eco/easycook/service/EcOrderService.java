@@ -1,13 +1,15 @@
 package com.eco.easycook.service;
 
+import com.eco.easycook.ResponseVo.ResponseVo;
 import com.eco.easycook.ResponseVo.Vo;
 import com.eco.easycook.pojo.EcOrder;
+import com.eco.easycook.util.ResultBean;
 
 public interface EcOrderService {
 
-    Vo selectOrderById(int gid);
+    ResultBean selectOrderById(int gid);
 
-    Vo addOrder(EcOrder ecOrder);
+    ResultBean addOrder(EcOrder ecOrder);
 
-    Vo delOrder(int oid);
+    ResultBean delOrder(int oid);
 }
