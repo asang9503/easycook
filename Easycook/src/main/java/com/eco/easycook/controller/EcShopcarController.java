@@ -2,36 +2,30 @@ package com.eco.easycook.controller;
 
 import com.eco.easycook.ResponseVo.Vo;
 import com.eco.easycook.service.EcShopcarService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+
 @RestController
+@Api(value = "购物车接口", tags = {"购物车接口"})
 public class EcShopcarController {
 
     @Autowired
     private EcShopcarService ecShopcarService;
 
-    /**
-     * 根据用户id查询购物车信息
-     * @param uid
-     * @return
-     */
-    @RequestMapping("/selectShopcarById")
+
+    @GetMapping("/selectShopcarById")
+    @ApiOperation(value = "根据用户id查询购物车信息",httpMethod = "GET",notes = "根据用户id查询购物车信息" )
     public Vo selectShopcarById(int uid) {
 
         return ecShopcarService.selectShopcarById(uid);
     }
 
 
-    /**
-     * 根据购物车id删除某件商品
-     * @param sid
-     * @return
-     */
-    @RequestMapping("/deleteGoodsBySid")
+    @PostMapping("/deleteGoodsBySid")
+    @ApiOperation(value = "根据购物车id删除某件商品",httpMethod = "POST",notes = "根据购物车id删除某件商品" )
     public Boolean deleteGoodsBySid(int sid) {
 
         return ecShopcarService.deleteGoodsBySid(sid);
