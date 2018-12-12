@@ -29,8 +29,8 @@ public class EcStoryController {
     })
     @ApiOperation(value = "查询当前用户关注的故事",httpMethod = "POST",notes = "实现展示故事功能" )
     @PostMapping("showStoryWithType")
-    public ResponseVo<EcStory> showStoryWithAttention(@Param(value = "pageNum") String pageNum,
-                                                      @Param(value = "pageSize")String pageSize,
+    public ResponseVo<EcStory> showStoryWithAttention(@Param(value = "pageNum") Integer pageNum,
+                                                      @Param(value = "pageSize")Integer pageSize,
                                                       @Param(value = "id")Integer id,
                                                       @Param(value = "token")String token) {
 
@@ -42,9 +42,12 @@ public class EcStoryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "当前用户点击的故事类型(最新/最热(发现))", required=true,paramType="query"),
             @ApiImplicitParam(name = "pageNum", value = "用户当前点击的页码", required=true,paramType="query"),
-            @ApiImplicitParam(name = "pageSize", value = "每页故事数量（默认6）", required=true,paramType="query")
+            @ApiImplicitParam(name = "pageSize", value = "每页故事数量（默认5）", required=true,paramType="query")
     })
-    public ResponseVo<EcStory> showHotStory(String pageNum, String pageSize, String type) {
+    public ResponseVo<EcStory> showHotStory(Integer pageNum, Integer pageSize, String type) {
+
+        System.out.println(pageNum);
+        System.out.println(pageSize);
 
         return service.showStoryWithType(pageNum, pageSize, type);
     }

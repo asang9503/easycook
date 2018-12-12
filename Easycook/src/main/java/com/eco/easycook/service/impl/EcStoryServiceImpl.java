@@ -7,6 +7,7 @@ import com.eco.easycook.service.EcStoryService;
 import com.eco.easycook.util.EcStoryUtil;
 import com.eco.easycook.util.ResponseVoUtil;
 import com.eco.easycook.util.token.SystemCon;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,7 @@ public class EcStoryServiceImpl implements EcStoryService {
      * @return
      */
     @Override
-    public ResponseVo<EcStory> showStoryWithAttention(String pageNum, String pageSize, Integer id, String token) {
+    public ResponseVo<EcStory> showStoryWithAttention(Integer pageNum, Integer pageSize, Integer id, String token) {
 
         //验证token和前段传来的参数
         if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && id != null && id !=0) {
@@ -84,7 +85,7 @@ public class EcStoryServiceImpl implements EcStoryService {
      * @return
      */
     @Override
-    public ResponseVo<EcStory> showStoryWithType(String pageNum, String pageSize, String type) {
+    public ResponseVo<EcStory> showStoryWithType(Integer pageNum, Integer pageSize, String type) {
         //判断前端传来的参数是否可用
         if (type == null || type == "") {
 
@@ -93,19 +94,19 @@ public class EcStoryServiceImpl implements EcStoryService {
             ResponseVo<EcStory> vo;
             //获取故事评论数量
             List<EcComment> list = commentMapper.selectCommentCount();
-            //获取最新故事
-            List<EcStory> listPutTime = mapper.selectWithPutTime();
-            //获取点赞最多故事
-            List<EcStory> listVoteNum = mapper.selectWithVoteNum();
             //获取故事点赞数量
             List<EcVote> listVote = voteMapper.selectVoteCount();
             //获取故事观看数量
             List<EcSee> listSee = seeMapper.selectSeeCount();
             switch (type) {
                 //查询出最新发布的故事
-                case "最新":
+                case "最热":
+
+                    PageHelper.startPage(pageNum, pageSize);
+                    //获取点赞最多故事
+                    List<EcStory> noteNumList = mapper.selectWithVoteNum();
                     //获取带有
-                    List<EcStory> newList = storyUtil.getStory(listVoteNum, list, listSee, listVote);
+                    List<EcStory> newList = storyUtil.getStory(noteNumList, list, listSee, listVote);
 
                     //对获取到故事进行点赞最多降序排序（选择排序）
                     for (int i = 0; i < newList.size(); i++) {
@@ -117,10 +118,10 @@ public class EcStoryServiceImpl implements EcStoryService {
                             }
                         }
                         if (index != i) {
-                            List<EcStory> temp = new ArrayList<>();
-                            temp.add(i, newList.get(i));
-                            newList.add(i, newList.get(index));
-                            newList.add(index, temp.get(i));
+                            EcStory temp;
+                            temp = newList.get(i);
+                            newList.set(i, newList.get(index));
+                            newList.set(index, temp);
                         }
                     }
                     //开启分页
@@ -130,7 +131,11 @@ public class EcStoryServiceImpl implements EcStoryService {
                     break;
 
                 //查询出最热的故事
-                case "最热": vo = new ResponseVo<>(1000, "success", storyUtil.getStory(listPutTime, list, listSee, listVote));
+                case "最新":
+//                    PageHelper.startPage(pageNum, pageSize);
+                    //获取最新故事
+                    List<EcStory> putTimeList = mapper.selectWithPutTime();
+                    vo = new ResponseVo<>(1000, "success", storyUtil.getStory(putTimeList, list, listSee, listVote));
                     break;
 
                 default:
