@@ -6,13 +6,15 @@
     <result column="ec_uid" property="ecUid" jdbcType="INTEGER" />
     <result column="ec_scontent" property="ecScontent" jdbcType="VARCHAR" />
     <result column="ec_time" property="ecTime" jdbcType="VARCHAR" />
+    <result column="ec_title" property="ecTitle" jdbcType="VARCHAR" />
     <result column="ec_flag" property="ecFlag" jdbcType="INTEGER" />
+    <result column="ec_votecount" property="ecVoteCount" jdbcType="INTEGER" />
+    <result column="ec_commentcount" property="ecCommentCount" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="MyResultMap" type="com.eco.easycook.pojo.EcStory" extends="BaseResultMap">
-    <association property="vote" javaType="com.eco.easycook.pojo.EcVote">
-      <id column="ec_id" property="ecId" jdbcType="INTEGER" />
-      <result column="storyid" property="storyid" jdbcType="INTEGER" />
-      <result column="ec_num" property="ecNum" jdbcType="INTEGER" />
+    <association property="user" javaType="com.eco.easycook.pojo.EcUser">
+      <id column="ec_uid" property="ecUid" jdbcType="INTEGER" />
+      <result column="ec_username" property="ecUsername" jdbcType="VARCHAR" />
     </association>
     <collection property="img" ofType="com.eco.easycook.pojo.EcStoryimg">
       <id column="ec_simgid" property="ecSimgid" jdbcType="INTEGER" />
@@ -34,10 +36,10 @@
     where ec_sid = #{ecSid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.eco.easycook.pojo.EcStory" >
-    insert into ec_story (ec_sid, ec_uid, ec_scontent, 
+    insert into ec_story (ec_sid,ec_title, ec_uid, ec_scontent,
       ec_time, ec_flag)
-    values (#{ecSid,jdbcType=INTEGER}, #{ecUid,jdbcType=INTEGER}, #{ecScontent,jdbcType=VARCHAR}, 
-      #{ecTime,jdbcType=VARCHAR}, #{ecFlag,jdbcType=INTEGER})
+    values (#{ecSid,jdbcType=INTEGER},#{ecTitle,jdbcType=VARCHAR}, #{ecUid,jdbcType=INTEGER}, #{ecScontent,jdbcType=VARCHAR},
+      now(), #{ecFlag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcStory" >
     insert into ec_story
@@ -57,6 +59,12 @@
       <if test="ecFlag != null" >
         ec_flag,
       </if>
+      <if test="ecVoteCount != null" >
+        ec_votecount,
+      </if>
+      <if test="ecCommentCount != null" >
+        ec_commentcount,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="ecSid != null" >
@@ -68,11 +76,17 @@
       <if test="ecScontent != null" >
         #{ecScontent,jdbcType=VARCHAR},
       </if>
-      <if test="ecTime != null" >
-        #{ecTime,jdbcType=VARCHAR},
+      <if test="ecTime = null" >
+        now()
       </if>
       <if test="ecFlag != null" >
         #{ecFlag,jdbcType=INTEGER},
+      </if>
+            <if test="ecVoteCount != null" >
+        #{ecVoteCount,jdbcType=INTEGER},
+      </if>
+            <if test="ecCommentCount != null" >
+        #{ecCommentCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -104,7 +118,7 @@
   </update>
 
   <select id="selectByUserId" resultMap="MyResultMap">
-    SELECT * FROM ec_story st
+    SELECT st.ec_sid,st.ec_title, st.ec_uid,st.ec_commentcount,st.ec_scontent, st.ec_votecount,us.ec_username,st.ec_time, si.ec_simgurl FROM ec_story st
        INNER JOIN ec_attention att
        ON st.ec_uid = att.ec_vid
        INNER JOIN ec_user us
@@ -114,28 +128,25 @@
     WHERE att.ec_uid = 1 AND st.ec_flag = 2
   </select>
 
-  <select id="selectWithVoteNum" resultMap="MyResultMap">
-    SELECT *
+  <select id="selectWithVoteNum" resultMap="MyResultMap" >
+    SELECT st.ec_sid,st.ec_title, st.ec_uid,st.ec_commentcount,st.ec_scontent, st.ec_votecount,us.ec_username,st.ec_time, si.ec_simgurl
      FROM ec_story st
        LEFT JOIN ec_user us
        ON st.ec_uid = us.ec_uid
        LEFT JOIN ec_storyimg si
        ON st.ec_sid = si.storyid
-       LEFT JOIN ec_vote vo
-       ON vo.storyid = st.ec_sid
     WHERE st.ec_flag = 2
-    ORDER BY vo.ec_num DESC
+    ORDER BY st.ec_votecount DESC
   </select>
   <select id="selectWithPutTime" resultMap="MyResultMap">
-    SELECT *
+    SELECT st.ec_sid,st.ec_title, st.ec_uid,st.ec_commentcount,st.ec_scontent, st.ec_votecount,us.ec_username,st.ec_time, si.ec_simgurl
     FROM ec_story st
     LEFT JOIN ec_user us
     ON st.ec_uid = us.ec_uid
     LEFT JOIN ec_storyimg si
     ON st.ec_sid = si.storyid
-    LEFT JOIN ec_vote vo
-    ON vo.storyid = st.ec_sid
     WHERE st.ec_flag = 2
     ORDER BY st.ec_time DESC
   </select>
+
 </mapper>

@@ -2,6 +2,8 @@ package com.eco.easycook.mapper;
 
 import com.eco.easycook.pojo.EcStoryimg;
 
+import java.util.List;
+
 public interface EcStoryimgMapper {
     int deleteByPrimaryKey(Integer ecSimgid);
 
@@ -14,4 +16,6 @@ public interface EcStoryimgMapper {
     int updateByPrimaryKeySelective(EcStoryimg record);
 
     int updateByPrimaryKey(EcStoryimg record);
+
+    int inserts(List<EcStoryimg> fileName);
 }

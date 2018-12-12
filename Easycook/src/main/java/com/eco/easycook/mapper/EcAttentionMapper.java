@@ -3,7 +3,7 @@ package com.eco.easycook.mapper;
 import com.eco.easycook.pojo.EcAttention;
 
 public interface EcAttentionMapper {
-    int deleteByPrimaryKey(Integer ecAid);
+    int deleteByTwoId(EcAttention record);
 
     int insert(EcAttention record);
 
@@ -14,4 +14,6 @@ public interface EcAttentionMapper {
     int updateByPrimaryKeySelective(EcAttention record);
 
     int updateByPrimaryKey(EcAttention record);
+
+    EcAttention selectByTwoId(EcAttention record);
 }

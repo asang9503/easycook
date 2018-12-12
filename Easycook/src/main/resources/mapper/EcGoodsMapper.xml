@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eco.easycook.mapper.EcGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcGoods">
+    <id column="ec_gid" jdbcType="INTEGER" property="ecGid" />
+    <result column="ec_gname" jdbcType="VARCHAR" property="ecGname" />
+    <result column="ec_gtypeid" jdbcType="INTEGER" property="ecGtypeid" />
+    <result column="ec_gprice" jdbcType="INTEGER" property="ecGprice" />
+    <result column="ec_gphoto" jdbcType="VARCHAR" property="ecGphoto" />
+    <result column="ec_ggrade" jdbcType="VARCHAR" property="ecGgrade" />
+    <result column="ec_gdescs" jdbcType="VARCHAR" property="ecGdescs" />
+    <result column="ec_tname" jdbcType="VARCHAR" property="ecTname" />
+    <result column="ec_imgurl" jdbcType="VARCHAR" property="ecImgurl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ec_gid, ec_gname, ec_gtypeid, ec_gprice, ec_gphoto, ec_ggrade, ec_gdescs
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ec_goods
+    where ec_gid = #{ecGid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ec_goods
+    where ec_gid = #{ecGid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eco.easycook.pojo.EcGoods">
+    insert into ec_goods (ec_gid, ec_gname, ec_gtypeid, 
+      ec_gprice, ec_gphoto, ec_ggrade, 
+      ec_gdescs)
+    values (#{ecGid,jdbcType=INTEGER}, #{ecGname,jdbcType=VARCHAR}, #{ecGtypeid,jdbcType=INTEGER}, 
+      #{ecGprice,jdbcType=INTEGER}, #{ecGphoto,jdbcType=VARCHAR}, #{ecGgrade,jdbcType=VARCHAR}, 
+      #{ecGdescs,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcGoods">
+    insert into ec_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ecGid != null">
+        ec_gid,
+      </if>
+      <if test="ecGname != null">
+        ec_gname,
+      </if>
+      <if test="ecGtypeid != null">
+        ec_gtypeid,
+      </if>
+      <if test="ecGprice != null">
+        ec_gprice,
+      </if>
+      <if test="ecGphoto != null">
+        ec_gphoto,
+      </if>
+      <if test="ecGgrade != null">
+        ec_ggrade,
+      </if>
+      <if test="ecGdescs != null">
+        ec_gdescs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ecGid != null">
+        #{ecGid,jdbcType=INTEGER},
+      </if>
+      <if test="ecGname != null">
+        #{ecGname,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGtypeid != null">
+        #{ecGtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="ecGprice != null">
+        #{ecGprice,jdbcType=INTEGER},
+      </if>
+      <if test="ecGphoto != null">
+        #{ecGphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGgrade != null">
+        #{ecGgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGdescs != null">
+        #{ecGdescs,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eco.easycook.pojo.EcGoods">
+    update ec_goods
+    <set>
+      <if test="ecGname != null">
+        ec_gname = #{ecGname,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGtypeid != null">
+        ec_gtypeid = #{ecGtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="ecGprice != null">
+        ec_gprice = #{ecGprice,jdbcType=INTEGER},
+      </if>
+      <if test="ecGphoto != null">
+        ec_gphoto = #{ecGphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGgrade != null">
+        ec_ggrade = #{ecGgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="ecGdescs != null">
+        ec_gdescs = #{ecGdescs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ec_gid = #{ecGid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcGoods">
+    update ec_goods
+    set ec_gname = #{ecGname,jdbcType=VARCHAR},
+      ec_gtypeid = #{ecGtypeid,jdbcType=INTEGER},
+      ec_gprice = #{ecGprice,jdbcType=INTEGER},
+      ec_gphoto = #{ecGphoto,jdbcType=VARCHAR},
+      ec_ggrade = #{ecGgrade,jdbcType=VARCHAR},
+      ec_gdescs = #{ecGdescs,jdbcType=VARCHAR}
+    where ec_gid = #{ecGid,jdbcType=INTEGER}
+  </update>
+
+<select id="selectAllGoods" resultMap="BaseResultMap">
+
+  select
+  ec_gid, ec_gname, ec_gtypeid, ec_gprice, ec_gphoto, ec_ggrade, ec_gdescs
+  from ec_goods
+
+</select>
+
+  <select id="selectGoodsByType" resultMap="BaseResultMap">
+
+    select
+    g.ec_gid ,g.ec_gname ,g.ec_gtypeid ,
+    g.ec_gprice ,g.ec_ggrade ,g.ec_gphoto ,
+    g.ec_gdescs ,t.ec_tname
+    from ec_goods as g
+    left join ec_goodstype as t on g.ec_gtypeid=t.ec_tid
+    where ec_gtypeid = #{ecGtypeid,jdbcType=INTEGER}
+  </select>
+
+
+<!-- 一对多 一：商品表 多：图片表-->
+  <resultMap id="EcGoodsBean" type="com.eco.easycook.pojo.EcGoods">
+    <id column="ec_gid" jdbcType="INTEGER" property="ecGid" />
+    <result column="ec_gname" jdbcType="VARCHAR" property="ecGname" />
+    <result column="ec_gtypeid" jdbcType="INTEGER" property="ecGtypeid" />
+    <result column="ec_gprice" jdbcType="INTEGER" property="ecGprice" />
+    <result column="ec_gphoto" jdbcType="VARCHAR" property="ecGphoto" />
+    <result column="ec_ggrade" jdbcType="VARCHAR" property="ecGgrade" />
+    <result column="ec_gdescs" jdbcType="VARCHAR" property="ecGdescs" />
+
+    <collection property="ecGoodsimg" ofType="EcGoodsimg">
+      <id column="ec_gimgid" property="ecGimgid"/>
+      <result column="ec_imgurl" property="ecImgurl"/>
+    </collection>
+  </resultMap>
+
+  <select id="selectGoodsById" resultMap="EcGoodsBean">
+
+    select
+    g.ec_gid ,g.ec_gname ,g.ec_gtypeid ,
+    g.ec_gprice ,g.ec_ggrade ,g.ec_gphoto ,
+    g.ec_gdescs ,i.ec_imgurl
+    from ec_goods as g
+    left join ec_goodsimg as i on g.ec_gid=i.ec_gid
+    where g.ec_gid = #{ecGid,jdbcType=INTEGER}
+  </select>
+
+</mapper>

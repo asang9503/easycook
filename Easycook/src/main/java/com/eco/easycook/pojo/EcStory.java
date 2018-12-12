@@ -1,5 +1,8 @@
 package com.eco.easycook.pojo;
 
+
+import java.util.List;
+
 public class EcStory {
     private Integer ecSid;
 
@@ -11,35 +14,64 @@ public class EcStory {
 
     private Integer ecFlag;
 
-    private Object img;
+    private List<EcStoryimg> img;
 
-    private EcVote vote;
+    private Integer ecVoteCount;
 
-    private Object comment;
+    private EcUser user;
 
+    private String EcTitle;
 
-    public Object getImg() {
+    private Integer ecCommentCount;
+
+    private Integer seeCount;
+
+    public Integer getSeeCount() {
+        return seeCount;
+    }
+
+    public void setSeeCount(Integer seeCount) {
+        this.seeCount = seeCount;
+    }
+
+    public Integer getEcCommentCount() {
+        return ecCommentCount;
+    }
+
+    public void setEcCommentCount(Integer ecCommentCount) {
+        this.ecCommentCount = ecCommentCount;
+    }
+
+    public String getEcTitle() {
+        return EcTitle;
+    }
+
+    public void setEcTitle(String ecTitle) {
+        EcTitle = ecTitle;
+    }
+
+    public EcUser getUser() {
+        return user;
+    }
+
+    public void setUser(EcUser user) {
+        this.user = user;
+    }
+
+    public Integer getEcVoteCount() {
+        return ecVoteCount;
+    }
+
+    public void setEcVoteCount(Integer ecVoteCount) {
+        this.ecVoteCount = ecVoteCount;
+    }
+
+    public List<EcStoryimg> getImg() {
         return img;
     }
 
-    public void setImg(Object img) {
+    public void setImg(List<EcStoryimg> img) {
         this.img = img;
-    }
-
-    public Object getComment() {
-        return comment;
-    }
-
-    public void setComment(Object comment) {
-        this.comment = comment;
-    }
-
-    public EcVote getVote() {
-        return vote;
-    }
-
-    public void setVote(EcVote vote) {
-        this.vote = vote;
     }
 
     public Integer getEcSid() {
