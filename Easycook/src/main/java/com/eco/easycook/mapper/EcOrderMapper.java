@@ -18,4 +18,6 @@ public interface EcOrderMapper {
     int updateByPrimaryKey(EcOrder record);
 
     List<EcOrder> selectOrderById(int gid);
+
+    int updateState(int ecOid);
 }

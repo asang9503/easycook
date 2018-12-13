@@ -1,11 +1,18 @@
 package com.eco.easycook.service;
 
+import com.eco.easycook.ResponseVo.ResponseVo;
 import com.eco.easycook.ResponseVo.Vo;
+import com.eco.easycook.pojo.EcShopcar;
+import com.eco.easycook.util.ResultBean;
 
 public interface EcShopcarService {
 
 
-    Vo selectShopcarById(int uid);
+    ResultBean selectShopcarById(int uid);
 
-    Boolean deleteGoodsBySid(int sid);
+    ResultBean deleteGoodsBySid(int sid);
+
+    ResultBean insertGoods(EcShopcar ecShopcar);
+
+    ResultBean updateNum(int goodsNum, int shopcarId);
 }

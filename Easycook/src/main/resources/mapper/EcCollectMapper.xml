@@ -20,17 +20,18 @@
     where ec_id = #{ecId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.eco.easycook.pojo.EcCollect" >
-    insert into ec_collect (ec_id, ec_cid, ec_vid
-      )
-    values (#{ecId,jdbcType=INTEGER}, #{ecCid,jdbcType=INTEGER}, #{ecVid,jdbcType=INTEGER}
-      )
+    <selectKey resultType="java.lang.Integer" keyProperty="ecId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ec_collect (ec_cid, ec_vid)
+    values (#{ecCid,jdbcType=INTEGER}, #{ecVid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcCollect" >
+    <selectKey resultType="java.lang.Integer" keyProperty="ecId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into ec_collect
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="ecId != null" >
-        ec_id,
-      </if>
       <if test="ecCid != null" >
         ec_cid,
       </if>
@@ -39,9 +40,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="ecId != null" >
-        #{ecId,jdbcType=INTEGER},
-      </if>
       <if test="ecCid != null" >
         #{ecCid,jdbcType=INTEGER},
       </if>
@@ -68,4 +66,13 @@
       ec_vid = #{ecVid,jdbcType=INTEGER}
     where ec_id = #{ecId,jdbcType=INTEGER}
   </update>
+
+  <delete id="delBycidAndUid" parameterType="com.eco.easycook.pojo.EcCollect">
+    delete from ec_collect where ec_cid = #{ecCid,jdbcType=INTEGER} and ec_vid = #{ecVid,jdbcType=INTEGER};
+  </delete>
+
+
+  <delete id="delBycid" >
+    delete from ec_collect where ec_cid = #{cid};
+  </delete>
 </mapper>

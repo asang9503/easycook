@@ -132,4 +132,12 @@
     from ec_order
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
+
+  <update id="updateState" parameterType="com.eco.easycook.pojo.EcOrder">
+
+    update ec_order
+    set ec_state = 1
+    where ec_oid = #{ecOid,jdbcType=INTEGER}
+
+  </update>
 </mapper>

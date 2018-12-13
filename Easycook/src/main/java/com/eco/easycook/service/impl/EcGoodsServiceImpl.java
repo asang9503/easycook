@@ -1,8 +1,12 @@
 package com.eco.easycook.service.impl;
 
+import com.eco.easycook.ResponseVo.ResponseVo;
 import com.eco.easycook.ResponseVo.Vo;
 import com.eco.easycook.mapper.EcGoodsMapper;
 import com.eco.easycook.service.EcGoodsService;
+import com.eco.easycook.util.ResponseVoUtil;
+import com.eco.easycook.util.ResultBean;
+import com.eco.easycook.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,40 +17,39 @@ public class EcGoodsServiceImpl implements EcGoodsService {
     private EcGoodsMapper ecGoodsMapper;
 
     @Override
-    public Vo selectAllGoods() {
+    public ResultBean selectAllGoods() {
 
-        Vo vo = new Vo();
-        vo.setCode(1000);
-        vo.setData(ecGoodsMapper.selectAllGoods());
+        if (ecGoodsMapper.selectAllGoods() != null) {
 
-        return vo;
+            return ResultUtil.setOK("查询成功",ecGoodsMapper.selectAllGoods());
+        } else {
+            return ResultUtil.setError(100001,"查询失败",null);
+        }
+
     }
 
     @Override
-    public Vo selectGoodsByType(int typeid) {
-        Vo vo = new Vo();
+    public ResultBean selectGoodsByType(int typeid) {
 
         if (ecGoodsMapper.selectGoodsByType(typeid) != null) {
-            vo.setCode(1000);
-            vo.setData(ecGoodsMapper.selectGoodsByType(typeid));
+            return ResultUtil.setOK("查询成功",ecGoodsMapper.selectGoodsByType(typeid));
+
         } else {
-            vo.setCode(2000);
+            return ResultUtil.setError(100001,"查询失败",null);
         }
-        return vo;
+
 
     }
 
     @Override
-    public Vo selectGoodsById(int gid) {
-
-        Vo vo = new Vo();
+    public ResultBean selectGoodsById(int gid) {
 
         if (ecGoodsMapper.selectGoodsById(gid) != null) {
-            vo.setCode(1000);
-            vo.setData(ecGoodsMapper.selectGoodsById(gid));
+            return ResultUtil.setOK("查询成功",ecGoodsMapper.selectGoodsById(gid));
+
         } else {
-            vo.setCode(2000);
+            return ResultUtil.setError(100001,"查询失败",null);
         }
-        return vo;
+
     }
 }
