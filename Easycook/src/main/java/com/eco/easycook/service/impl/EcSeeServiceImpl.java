@@ -31,7 +31,7 @@ public class EcSeeServiceImpl implements EcSeeService {
         //前段传来的参数
         if (see != null) {
 
-            int i = mapper.insertSelective(see);
+            int i = mapper.insert(see);
 
             if (i == 1) {
                 return ResponseVoUtil.setOk("success");

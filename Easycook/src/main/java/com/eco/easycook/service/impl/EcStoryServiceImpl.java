@@ -59,21 +59,31 @@ public class EcStoryServiceImpl implements EcStoryService {
 
         //验证token和前段传来的参数
         if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && id != null && id !=0) {
-            //获取故事评论数量
-            List<EcComment> list = commentMapper.selectCommentCountById(id);
+
             //获取关注的故事
             List<EcStory> lists = mapper.selectByUserId(id);
-            //获取故事点赞数量
-            List<EcVote> listVote = voteMapper.selectVoteCountById(id);
-            //获取故事观看数量
-            List<EcSee> listSee = seeMapper.selectSeeCountById(id);
-            //调用分页
-            PageInfo<EcStory> info = new PageInfo<>(storyUtil.getStory(lists, list, listSee, listVote));
+            if(lists != null) {
 
-            ResponseVo<EcStory> vo = new ResponseVo<>(1000, "success", info);
+                PageHelper.startPage(pageNum, pageSize);
+                //获取故事评论数量
+                List<EcComment> list = commentMapper.selectCommentCountById(id);
+                //获取故事点赞数量
+                List<EcVote> listVote = voteMapper.selectVoteCountById(id);
+                //获取故事观看数量
+                List<EcSee> listSee = seeMapper.selectSeeCountById(id);
 
-            return vo;
+                List<EcStory> newList = storyUtil.getStory(lists, list, listSee, listVote);
+                //分离图片路径
+                imgUtil.getListImgUrl(newList);
+                //调用分页
+                PageInfo<EcStory> info = new PageInfo<>(newList);
 
+                ResponseVo<EcStory> vo = new ResponseVo<>(1000, "success", info);
+
+                return vo;
+            } else {
+                return ResponseVoUtil.setERROR("没有故事");
+            }
         } else {
 
             return ResponseVoUtil.setERROR("登陆后才能查看");
@@ -110,31 +120,36 @@ public class EcStoryServiceImpl implements EcStoryService {
                     //获取点赞最多故事
                     List<EcStory> noteNumList = mapper.selectWithVoteNum();
 
-                    //获取带有
-                    List<EcStory> newList = storyUtil.getStory(noteNumList, list, listSee, listVote);
+                    if (noteNumList != null) {
+                        List<EcStory> newList = storyUtil.getStory(noteNumList, list, listSee, listVote);
 
-                    imgUtil.getListImgUrl(newList);
+                        imgUtil.getListImgUrl(newList);
 
-                    //对获取到故事进行点赞最多降序排序（选择排序）
-                    for (int i = 0; i < newList.size(); i++) {
-                        int index = i;
+                        //对获取到故事进行点赞最多降序排序（选择排序）
+                        for (int i = 0; i < newList.size(); i++) {
+                            int index = i;
 
-                        for (int j = i + 1; j < newList.size(); j++) {
-                            if (newList.get(index).getEcVoteCount() < newList.get(j).getEcVoteCount()) {
-                                index = j;
+                            for (int j = i + 1; j < newList.size(); j++) {
+                                if (newList.get(index).getEcVoteCount() < newList.get(j).getEcVoteCount()) {
+                                    index = j;
+                                }
+                            }
+                            if (index != i) {
+                                EcStory temp;
+                                temp = newList.get(i);
+                                newList.set(i, newList.get(index));
+                                newList.set(index, temp);
                             }
                         }
-                        if (index != i) {
-                            EcStory temp;
-                            temp = newList.get(i);
-                            newList.set(i, newList.get(index));
-                            newList.set(index, temp);
-                        }
-                    }
-                    //开启分页
-                    PageInfo<EcStory> info = new PageInfo<>(newList);
+                        //开启分页
+                        PageInfo<EcStory> info = new PageInfo<>(newList);
 
-                    vo = new ResponseVo<>(1000, "success", info);
+                        vo = new ResponseVo<>(1000, "success", info);
+                    } else {
+                        vo = ResponseVoUtil.setERROR("没有故事");
+                    }
+                    //获取带有
+
                     break;
 
                 //查询出最热的故事
@@ -143,18 +158,23 @@ public class EcStoryServiceImpl implements EcStoryService {
                     //获取最新故事
                     List<EcStory> putTimeList = mapper.selectWithPutTime();
 
+                    if (putTimeList != null) {
 
+                        List<EcStory> newList = storyUtil.getStory(putTimeList, list, listSee, listVote);
 
-                    PageInfo<EcStory> info1 = new PageInfo<>(imgUtil.getListImgUrl(storyUtil.getStory(putTimeList, list, listSee, listVote)));
+                        imgUtil.getListImgUrl(newList);
 
-                    vo = new ResponseVo<>(1000, "success", info1);
+                        PageInfo<EcStory> info1 = new PageInfo<>(newList);
+
+                        vo = new ResponseVo<>(1000, "success", info1);
+                    } else {
+                        vo = ResponseVoUtil.setERROR("没有故事");
+                    }
                     break;
 
                 default:
                     vo = ResponseVoUtil.setERROR("网络异常请重新刷新");
-
                     break;
-
             }
             //封装到返回方法中
             return vo;
@@ -184,7 +204,7 @@ public class EcStoryServiceImpl implements EcStoryService {
         if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && story != null) {
 
 
-            if (!fileName[0].isEmpty()) {
+            if (fileName.length != 0) {
 
                 List<EcStoryimg> list = new ArrayList<>();
 
