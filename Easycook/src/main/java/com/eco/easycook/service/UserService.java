@@ -13,5 +13,5 @@ public interface UserService {
 	//注销
 	ResultBean loginOut(String token);
 	//注册
-	int addUser(EcUser user);
+	ResultBean addUser(EcUser user) throws Exception;
 }

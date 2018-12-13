@@ -32,15 +32,7 @@ public class UserServiceImpl implements UserService {
 				//生成令牌
 				String token=TokenUtil.createToken(JSON.toJSONString(user),user.getEcUid());
 				//存储令牌到Redis
-				//采用Hash类型 存储的键为固定字符串+Token 存储的值是对应用户信息的json字符串
-				//Jedis jedis = new Jedis("120.79.198.64",6379);
-				//jedis.auth("root");
-				//jedis.connect();
-				//jedis.hset(SystemCon.TOKENHASH,"token:"+""+token,JSON.toJSONString(user));
 				jedisUtil.addHash(SystemCon.TOKENHASH,"token:"+token,JSON.toJSONString(user));
-				//jedis.close();
-				
-				
 				return ResultUtil.setOK("登录成功",token);
 			}
 		}
@@ -51,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	public ResultBean checkLogin(String token) {
 		String value = jedisUtil.getHash(SystemCon.TOKENHASH,"token:"+token);
 		
-		//System.out.println("value:"+value);
+		System.out.println("value:"+value);
 		if (null != value) {
 			EcUser user = JSON.parseObject(value, EcUser.class);
 			return ResultUtil.setOK("登录有效", user);
@@ -67,11 +59,31 @@ public class UserServiceImpl implements UserService {
 		jedisUtil.delHash(SystemCon.TOKENHASH,"token:"+token);
 		String value2 = jedisUtil.getHash(SystemCon.TOKENHASH, "token:" + token);
 		System.out.println("注销后"+value2);
-		return ResultUtil.setOK("注销成功",null);
+		if (null != value2 ){
+			return ResultUtil.setOK("注销成功",null);
+			
+		}else {
+			return ResultUtil.setError(SystemCon.RERROR1,"注销失败",null);
+			
+		}
 	}
 	
 	@Override
-	public int addUser(EcUser user) {
-		return userMapper.insert(user);
+	public ResultBean addUser(EcUser user)  {
+		ResultBean rb = new ResultBean();
+		if( null != user.getEcPassword() &&null != user.getEcUsername()){
+			try {
+				if(true == userMapper.insert(user))
+				rb.setCode(SystemCon.ROK);
+				rb.setMsg("注册成功");
+				return  rb;
+			} catch (Exception e) {
+				e.printStackTrace();
+				rb.setCode(SystemCon.RERROR1);
+				rb.setMsg("注册失败");
+				return  rb;
+			}
+		}
+		return rb;
 	}
 }

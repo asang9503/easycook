@@ -28,13 +28,8 @@
     where ec_uid = #{ecUid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.eco.easycook.pojo.EcUser" >
-    insert into ec_user (ec_uid, ec_username, ec_password, 
-      ec_rid, ec_flag, ec_sex, 
-      ec_address, ec_favorite, ec_creatname, 
-      ec_vip)
-    values (#{ecUid,jdbcType=INTEGER}, #{ecUsername,jdbcType=VARCHAR}, #{ecPassword,jdbcType=VARCHAR}, 
-      #{ecRid,jdbcType=INTEGER}, #{ecFlag,jdbcType=INTEGER}, #{ecSex,jdbcType=INTEGER}, 
-      #{ecAddress,jdbcType=VARCHAR}, #{ecFavorite,jdbcType=INTEGER}, #{ecCreatname,jdbcType=VARCHAR}, 
+    insert into ec_user (ec_uid, ec_username, ec_password, ec_rid, ec_flag, ec_sex, ec_address, ec_favorite, ec_creatname, ec_vip)
+    values (#{ecUid,jdbcType=INTEGER}, #{ecUsername,jdbcType=VARCHAR}, #{ecPassword,jdbcType=VARCHAR}, #{ecRid,jdbcType=INTEGER}, #{ecFlag,jdbcType=INTEGER}, #{ecSex,jdbcType=INTEGER}, #{ecAddress,jdbcType=VARCHAR}, #{ecFavorite,jdbcType=INTEGER}, #{ecCreatname,jdbcType=VARCHAR},
       #{ecVip,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcUser" >

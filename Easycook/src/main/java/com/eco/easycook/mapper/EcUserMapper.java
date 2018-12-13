@@ -5,7 +5,7 @@ import com.eco.easycook.pojo.EcUser;
 public interface EcUserMapper {
     int deleteByPrimaryKey(Integer ecUid);
 
-    int insert(EcUser record);
+    Boolean insert(EcUser record) throws  Exception;
 
     int insertSelective(EcUser record);
 
