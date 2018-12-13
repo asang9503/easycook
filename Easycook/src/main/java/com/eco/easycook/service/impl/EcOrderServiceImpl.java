@@ -25,7 +25,7 @@ public class EcOrderServiceImpl implements EcOrderService {
             return ResultUtil.setOK("查询成功",ecOrderMapper.selectOrderById(gid));
 
         } else {
-            return ResultUtil.setError(100001,"查询失败",null);
+            return ResultUtil.setError(SystemCon.RERROR1,"查询失败",null);
         }
     }
 
@@ -50,6 +50,17 @@ public class EcOrderServiceImpl implements EcOrderService {
 
         } else {
             return ResultUtil.setError(SystemCon.RERROR1,"删除失败",null);
+        }
+    }
+
+    @Override
+    public ResultBean updateState(int ecOid) {
+
+        if (ecOrderMapper.updateState(ecOid)>0) {
+            return ResultUtil.setOK("修改成功",null);
+
+        } else {
+            return ResultUtil.setError(SystemCon.RERROR1,"修改失败",null);
         }
     }
 }

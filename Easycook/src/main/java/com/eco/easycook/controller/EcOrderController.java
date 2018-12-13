@@ -38,4 +38,11 @@ public class EcOrderController {
 
         return ecOrderService.delOrder(oid);
     }
+    @GetMapping("/updateState")
+    @ApiOperation(value = "根据订单id修改订单状态",httpMethod = "GET",notes = "根据订单id修改订单状态" )
+    public ResultBean updateState(int ecOid) {
+
+        return ecOrderService.updateState(ecOid);
+    }
+
 }

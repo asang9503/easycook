@@ -2,6 +2,7 @@ package com.eco.easycook.controller;
 
 import com.eco.easycook.ResponseVo.ResponseVo;
 import com.eco.easycook.ResponseVo.Vo;
+import com.eco.easycook.pojo.EcShopcar;
 import com.eco.easycook.service.EcShopcarService;
 import com.eco.easycook.util.ResultBean;
 import io.swagger.annotations.Api;
@@ -31,5 +32,19 @@ public class EcShopcarController {
     public ResultBean deleteGoodsBySid(int sid) {
 
         return ecShopcarService.deleteGoodsBySid(sid);
+    }
+
+    @GetMapping("/insertGoods")
+    @ApiOperation(value = "添加新的购物车",httpMethod = "GET",notes = "添加新的购物车" )
+    public ResultBean insertGoods(EcShopcar ecShopcar) {
+
+        return ecShopcarService.insertGoods(ecShopcar);
+    }
+
+    @GetMapping("/updateNum")
+    @ApiOperation(value = "修改商品的数量",httpMethod = "GET",notes = "修改商品的数量" )
+    public ResultBean updateNum(int goodsNum, int shopcarId) {
+
+        return ecShopcarService.updateNum(goodsNum, shopcarId);
     }
 }

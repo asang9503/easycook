@@ -27,6 +27,9 @@
       #{goodsNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcShopcar">
+    <selectKey resultType="java.lang.Integer" keyProperty="shopcarId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into ec_shopcar
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="shopcarId != null">
@@ -109,5 +112,12 @@
     left join ec_goods as g on s.goods_id=g.ec_gid
     where s.user_id = #{userId,jdbcType=INTEGER}
   </select>
+
+  <update id="updateNum" parameterType="com.eco.easycook.pojo.EcShopcar">
+    update ec_shopcar
+    set goods_num = #{goodsNum,jdbcType=INTEGER}
+    where shopcar_id = #{shopcarId,jdbcType=INTEGER}
+
+  </update>
 
 </mapper>

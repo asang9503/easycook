@@ -12,4 +12,6 @@ public interface EcOrderService {
     ResultBean addOrder(EcOrder ecOrder);
 
     ResultBean delOrder(int oid);
+
+    ResultBean updateState(int ecOid);
 }
