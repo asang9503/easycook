@@ -14,14 +14,14 @@ public interface EcStoryService {
      *
      * @return
      */
-     ResponseVo<EcStory> showStoryWithAttention(String pageNum, String pageSize, Integer id, String token);
+     ResponseVo<EcStory> showStoryWithAttention(Integer pageNum, Integer pageSize, Integer id, String token);
 
     /**
      *
      * 查询最热的故事（发现故事）
      * @return
      */
-     ResponseVo<EcStory> showStoryWithType(String pageNum, String pageSize, String type);
+     ResponseVo<EcStory> showStoryWithType(Integer pageNum, Integer pageSize, String type);
 
     /**
      *

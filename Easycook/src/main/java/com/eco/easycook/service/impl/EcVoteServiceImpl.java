@@ -38,11 +38,32 @@ public class EcVoteServiceImpl implements EcVoteService {
             EcVote vote1 = mapper.selectByTwoId(vote);
             //判断是否点赞
             if (vote1 == null) {
-                return new ResponseVo<>(1000, "success", mapper.insertSelective(vote));
+
+                int i = mapper.insertSelective(vote);
+
+                if (i == 1) {
+
+                    return ResponseVoUtil.setOk("success");
+                } else {
+
+                    return ResponseVoUtil.setERROR("点赞失败！");
+                }
+
             } else {
-                return new ResponseVo<>(1000, "success", mapper.deleteByTwoId(vote));
+
+                int i =  mapper.deleteByTwoId(vote);
+
+                if (i == 1) {
+
+                    return ResponseVoUtil.setOk("success");
+                } else {
+
+                    return ResponseVoUtil.setERROR("取消赞失败！");
+                }
+
             }
         } else {
+
             return ResponseVoUtil.setERROR("网络异常请刷新");
         }
 

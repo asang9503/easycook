@@ -31,9 +31,16 @@ public class EcSeeServiceImpl implements EcSeeService {
         //前段传来的参数
         if (see != null) {
 
-            return new ResponseVo<>(1000, "success", mapper.insertSelective(see));
+            int i = mapper.insert(see);
+
+            if (i == 1) {
+                return ResponseVoUtil.setOk("success");
+            } else {
+                return ResponseVoUtil.setERROR("网络开小差了");
+            }
+
         } else {
-            return ResponseVoUtil.setERROR("请填写内容");
+            return ResponseVoUtil.setERROR("网络开小差了");
         }
     }
 }

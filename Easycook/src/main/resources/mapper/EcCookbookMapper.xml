@@ -2,40 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.eco.easycook.mapper.EcCookbookMapper" >
   <resultMap id="BaseResultMap" type="com.eco.easycook.pojo.EcCookbook" >
-    <id column="ec_cid" property="ecCid" jdbcType="INTEGER" />
+    <id column="ec_cid" property="ecId" jdbcType="INTEGER" />
     <result column="ec_uid" property="ecUid" jdbcType="INTEGER" />
     <result column="ec_cname" property="ecCname" jdbcType="VARCHAR" />
+    <result column="collect" property="collect" jdbcType="VARCHAR" />
     <result column="typeid" property="typeid" jdbcType="INTEGER" />
+    <result column="ec_coverimg" property="ecCoverimg" jdbcType="VARCHAR" />
     <result column="ec_material" property="ecMaterial" jdbcType="VARCHAR" />
-    <result column="ec_createtime" property="ecCreatetime" jdbcType="VARCHAR" />
+    <result column="ec_content" property="ecContent" jdbcType="VARCHAR" />
+    <result column="ec_createtime" property="ecCreatetime" jdbcType="INTEGER" />
+    <result column="ec_flag" property="ecFlag" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ec_cid, ec_uid, ec_cname, typeid, ec_material, ec_createtime
+    ec_cid, ec_uid, ec_cname, typeid, ec_coverimg, ec_material, ec_content, ec_createtime,
+    ec_flag
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from ec_cookbook
-    where ec_cid = #{ecCid,jdbcType=INTEGER}
+    where ec_id = #{ecId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from ec_cookbook
-    where ec_cid = #{ecCid,jdbcType=INTEGER}
+    where ec_id = #{ecId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.eco.easycook.pojo.EcCookbook" >
-    insert into ec_cookbook (ec_cid, ec_uid, ec_cname, 
-      typeid, ec_material, ec_createtime
-      )
-    values (#{ecCid,jdbcType=INTEGER}, #{ecUid,jdbcType=INTEGER}, #{ecCname,jdbcType=VARCHAR}, 
-      #{typeid,jdbcType=INTEGER}, #{ecMaterial,jdbcType=VARCHAR}, #{ecCreatetime,jdbcType=VARCHAR}
-      )
+    <selectKey resultType="java.lang.Integer" keyProperty="ecId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ec_cookbook (ec_uid, ec_cname, typeid, 
+      ec_coverimg, ec_material, ec_content, 
+      ec_createtime, ec_flag)
+    values (#{ecUid,jdbcType=INTEGER}, #{ecCname,jdbcType=VARCHAR}, #{typeid,jdbcType=INTEGER}, 
+      #{ecCoverimg,jdbcType=VARCHAR}, #{ecMaterial,jdbcType=VARCHAR}, #{ecContent,jdbcType=VARCHAR}, 
+      #{ecCreatetime,jdbcType=INTEGER}, #{ecFlag,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcCookbook" >
+  <insert id="insertSelective" parameterType="com.eco.easycook.pojo.EcCookbook" useGeneratedKeys="true" keyProperty="ecId"  >
+
     insert into ec_cookbook
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="ecCid != null" >
-        ec_cid,
-      </if>
       <if test="ecUid != null" >
         ec_uid,
       </if>
@@ -45,17 +51,23 @@
       <if test="typeid != null" >
         typeid,
       </if>
+      <if test="ecCoverimg != null" >
+        ec_coverimg,
+      </if>
       <if test="ecMaterial != null" >
         ec_material,
+      </if>
+      <if test="ecContent != null" >
+        ec_content,
       </if>
       <if test="ecCreatetime != null" >
         ec_createtime,
       </if>
+      <if test="ecFlag != null" >
+        ec_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="ecCid != null" >
-        #{ecCid,jdbcType=INTEGER},
-      </if>
       <if test="ecUid != null" >
         #{ecUid,jdbcType=INTEGER},
       </if>
@@ -65,11 +77,20 @@
       <if test="typeid != null" >
         #{typeid,jdbcType=INTEGER},
       </if>
+      <if test="ecCoverimg != null" >
+        #{ecCoverimg,jdbcType=VARCHAR},
+      </if>
       <if test="ecMaterial != null" >
         #{ecMaterial,jdbcType=VARCHAR},
       </if>
+      <if test="ecContent != null" >
+        #{ecContent,jdbcType=VARCHAR},
+      </if>
       <if test="ecCreatetime != null" >
-        #{ecCreatetime,jdbcType=VARCHAR},
+        #{ecCreatetime,jdbcType=INTEGER},
+      </if>
+      <if test="ecFlag != null" >
+        #{ecFlag,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -85,22 +106,65 @@
       <if test="typeid != null" >
         typeid = #{typeid,jdbcType=INTEGER},
       </if>
+      <if test="ecCoverimg != null" >
+        ec_coverimg = #{ecCoverimg,jdbcType=VARCHAR},
+      </if>
       <if test="ecMaterial != null" >
         ec_material = #{ecMaterial,jdbcType=VARCHAR},
       </if>
+      <if test="ecContent != null" >
+        ec_content = #{ecContent,jdbcType=VARCHAR},
+      </if>
       <if test="ecCreatetime != null" >
-        ec_createtime = #{ecCreatetime,jdbcType=VARCHAR},
+        ec_createtime = #{ecCreatetime,jdbcType=INTEGER},
+      </if>
+      <if test="ecFlag != null" >
+        ec_flag = #{ecFlag,jdbcType=INTEGER},
       </if>
     </set>
-    where ec_cid = #{ecCid,jdbcType=INTEGER}
+    where ec_id = #{ecId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.eco.easycook.pojo.EcCookbook" >
     update ec_cookbook
     set ec_uid = #{ecUid,jdbcType=INTEGER},
       ec_cname = #{ecCname,jdbcType=VARCHAR},
       typeid = #{typeid,jdbcType=INTEGER},
+      ec_coverimg = #{ecCoverimg,jdbcType=VARCHAR},
       ec_material = #{ecMaterial,jdbcType=VARCHAR},
-      ec_createtime = #{ecCreatetime,jdbcType=VARCHAR}
-    where ec_cid = #{ecCid,jdbcType=INTEGER}
+      ec_content = #{ecContent,jdbcType=VARCHAR},
+      ec_createtime = #{ecCreatetime,jdbcType=INTEGER},
+      ec_flag = #{ecFlag,jdbcType=INTEGER}
+    where ec_id = #{ecId,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectByLimit" resultMap="BaseResultMap" >
+    select c.ec_cid,count(co.ec_cid) as collect,c.ec_flag,c.ec_cname,c.typeid,c.ec_coverimg   from ec_cookbook c LEFT JOIN ec_collect co on c.ec_cid = co.ec_cid GROUP BY c.ec_cid
+    having c.ec_flag=1 ORDER BY  c.ec_cid desc LIMIT 0,#{pagecount};
+  </select>
+
+
+  <select id="selectByType" resultMap="BaseResultMap" >
+    select c.ec_cid,count(co.ec_cid) as collect,c.ec_flag,c.ec_cname,c.typeid,c.ec_coverimg   from ec_cookbook c LEFT JOIN ec_collect co on c.ec_cid = co.ec_cid GROUP BY c.ec_cid
+    having c.ec_flag=1 and c.typeid=#{typeid};
+  </select>
+
+
+  <select id="selectByVid" resultMap="BaseResultMap" >
+    select c.ec_cid,count(co.ec_cid) as collect,c.ec_cname,c.typeid,c.ec_coverimg from ec_cookbook c inner JOIN
+    ec_collect co on c.ec_cid = co.ec_cid GROUP BY c.ec_cid
+    having c.ec_cid in(select c.ec_cid from ec_cookbook c inner JOIN
+    ec_collect co on c.ec_cid = co.ec_cid where co.ec_vid=#{vid} and c.ec_flag=1);
+  </select>
+
+  <select id="selectByCid" resultType="map" >
+  SELECT c.ec_cid ecId,c.ec_cname ecCname,c.ec_coverimg ecCoverimg,c.ec_material ecMaterial,c.ec_content ecContent,c.typeid typeid,t.ec_typename ecTypename,
+c.ec_flag ecFlag,c.ec_createtime ecCreatetime,u.ec_uid ecUid,u.ec_username ecUsername,u.ec_vip ecVip, u.ec_photo ecPhoto
+from ec_cookbook c INNER JOIN ec_user u on c.ec_uid=u.ec_uid INNER JOIN ec_foodtype t  on c.typeid=t.ec_id where c.ec_cid=#{cid};
+  </select>
+
+  <delete id="delByPrimaryKey" >
+    delete from ec_cookbook where ec_cid=#{cid} and ec_uid=#{uid};
+  </delete>
+
 </mapper>

@@ -35,7 +35,7 @@ public class EcReplyCommentController {
 
 
     @ApiOperation(value = "保存回复故事对应的评论的评论",httpMethod = "POST",notes = "实现保存故事的评论的回复" )
-    @PostMapping("getReplyComment")
+    @PostMapping("saveReplyComment")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "replyid", value = "当前用户的id", required = true, paramType = "query"),
             @ApiImplicitParam(name = "commentid", value = "当前用户回复的评论的id", required = true, paramType = "query"),

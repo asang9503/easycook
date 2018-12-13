@@ -1,7 +1,6 @@
 package com.eco.easycook.controller;
 
 import com.eco.easycook.ResponseVo.ResponseVo;
-import com.eco.easycook.mapper.EcStoryMapper;
 import com.eco.easycook.pojo.EcStory;
 import com.eco.easycook.service.EcStoryService;
 import io.swagger.annotations.*;
@@ -18,9 +17,6 @@ public class EcStoryController {
     @Autowired
     private EcStoryService service;
 
-    @Autowired
-    private EcStoryMapper mapper;
-
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "当前登录用户id", required=true,paramType="query"),
             @ApiImplicitParam(name = "token", value = "验证登录是否有效", required=true,paramType="query"),
@@ -28,9 +24,9 @@ public class EcStoryController {
             @ApiImplicitParam(name = "pageSize", value = "每页故事数量（默认6）", required=true,paramType="query")
     })
     @ApiOperation(value = "查询当前用户关注的故事",httpMethod = "POST",notes = "实现展示故事功能" )
-    @PostMapping("showStoryWithType")
-    public ResponseVo<EcStory> showStoryWithAttention(@Param(value = "pageNum") String pageNum,
-                                                      @Param(value = "pageSize")String pageSize,
+    @PostMapping("showWithIsAttintion")
+    public ResponseVo<EcStory> showStoryWithAttention(@Param(value = "pageNum") Integer pageNum,
+                                                      @Param(value = "pageSize")Integer pageSize,
                                                       @Param(value = "id")Integer id,
                                                       @Param(value = "token")String token) {
 
@@ -38,13 +34,16 @@ public class EcStoryController {
     }
 
     @ApiOperation(value = "查询最新、最热(发现)的故事",httpMethod = "GET",notes = "实现展示故事功能" )
-    @GetMapping("showHotStory")
+    @GetMapping("showWithType")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "当前用户点击的故事类型(最新/最热(发现))", required=true,paramType="query"),
             @ApiImplicitParam(name = "pageNum", value = "用户当前点击的页码", required=true,paramType="query"),
-            @ApiImplicitParam(name = "pageSize", value = "每页故事数量（默认6）", required=true,paramType="query")
+            @ApiImplicitParam(name = "pageSize", value = "每页故事数量（默认5）", required=true,paramType="query")
     })
-    public ResponseVo<EcStory> showHotStory(String pageNum, String pageSize, String type) {
+    public ResponseVo<EcStory> showHotStory(@Param(value = "pageNum")Integer pageNum, @Param(value = "pageSize")Integer pageSize,@Param(value = "type")  String type) {
+
+        System.out.println(pageNum);
+        System.out.println(pageSize);
 
         return service.showStoryWithType(pageNum, pageSize, type);
     }
@@ -59,7 +58,7 @@ public class EcStoryController {
             @ApiImplicitParam(name = "imgName", value = "故事发表附带的图片",paramType="query"),
             @ApiImplicitParam(name = "token", value = "验证登录有效", required=true,paramType="query"),
     })
-    public ResponseVo<EcStory> saveStory(EcStory story, String[] imgName, String token) {
+    public ResponseVo<EcStory> saveStory(EcStory story, String[] imgName, @Param(value = "token") String token) {
         return service.saveStory(story, imgName, token);
     }
 

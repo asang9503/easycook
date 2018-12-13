@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +25,8 @@ public class EcAttentionController {
     @Autowired
     private EcAttentionService service;
 
-    @ApiOperation(value = "保存用户关注",httpMethod = "POST",notes = "实现用户关注功能" )
-    @PostMapping("saveAttention")
+    @ApiOperation(value = "保存用户关注",httpMethod = "GET",notes = "实现用户关注功能" )
+    @GetMapping("saveAttention")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ecUid", value = "被关注人的id", required=true,paramType="query"),
             @ApiImplicitParam(name = "ecVid", value = "关注人的id", required=true,paramType="query")

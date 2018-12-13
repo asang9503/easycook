@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.JedisPool;
 
+import java.util.List;
+
 /**
  * @author Nvarchar
  */
@@ -21,6 +23,7 @@ public class EcReplycommentServiceImpl implements EcReplycommentService {
     private EcReplycommentMapper mapper;
 
     private JedisPool jedisPool = new JedisPool("120.79.198.64",6379);
+
     private JedisUtil jedisUtil = new JedisUtil(jedisPool,"root");
 
     /**
@@ -35,7 +38,16 @@ public class EcReplycommentServiceImpl implements EcReplycommentService {
         //验证token和前段传来的参数
         if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && storyid != null && storyid != 0 && commentid != null && commentid != 0) {
 
-            return new ResponseVo<>(1000, "success", mapper.selectByStoryidAndCommentId(storyid, commentid));
+            List<EcReplycomment> list = mapper.selectByStoryidAndCommentId(storyid, commentid);
+
+            if (list != null) {
+
+                return new ResponseVo<>(1000, "success", list);
+            } else {
+
+                return ResponseVoUtil.setERROR("无评论的回复");
+            }
+
         } else {
             return ResponseVoUtil.setERROR("网络异常请重新刷新");
         }
@@ -53,7 +65,16 @@ public class EcReplycommentServiceImpl implements EcReplycommentService {
         //验证token和前段传来的参数
         if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null &&replycomment != null) {
 
-            return new ResponseVo<>(1000, "success", mapper.insertSelective(replycomment));
+            int i = mapper.insertSelective(replycomment);
+
+            if (i == 1) {
+
+                return new ResponseVo<>(1000, "success", null);
+            } else {
+
+                return ResponseVoUtil.setERROR("网络异常请刷新");
+            }
+
         } else {
             return ResponseVoUtil.setERROR("请填写内容");
         }

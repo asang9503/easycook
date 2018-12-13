@@ -18,5 +18,5 @@ public interface EcReplycommentMapper {
 
     int updateByPrimaryKey(EcReplycomment record);
 
-    List<Map<String, Object>> selectByStoryidAndCommentId(Integer storyid, Integer commentid);
+    List<EcReplycomment> selectByStoryidAndCommentId(Integer storyid, Integer commentid);
 }
