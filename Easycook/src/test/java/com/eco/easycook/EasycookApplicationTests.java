@@ -11,6 +11,8 @@ public class EasycookApplicationTests {
 
     @Test
     public void contextLoads() {
+
+
     }
 
 }
