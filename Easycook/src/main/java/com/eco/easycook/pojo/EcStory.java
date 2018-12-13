@@ -14,7 +14,9 @@ public class EcStory {
 
     private Integer ecFlag;
 
-    private List<EcStoryimg> img;
+    private List<String> img;
+
+    private EcStoryimg imgs;
 
     private Integer ecVoteCount;
 
@@ -25,6 +27,14 @@ public class EcStory {
     private Integer ecCommentCount;
 
     private Integer seeCount;
+
+    public EcStoryimg getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(EcStoryimg imgs) {
+        this.imgs = imgs;
+    }
 
     public Integer getSeeCount() {
         return seeCount;
@@ -66,11 +76,11 @@ public class EcStory {
         this.ecVoteCount = ecVoteCount;
     }
 
-    public List<EcStoryimg> getImg() {
+    public List<String> getImg() {
         return img;
     }
 
-    public void setImg(List<EcStoryimg> img) {
+    public void setImg(List<String> img) {
         this.img = img;
     }
 
@@ -112,5 +122,23 @@ public class EcStory {
 
     public void setEcFlag(Integer ecFlag) {
         this.ecFlag = ecFlag;
+    }
+
+    @Override
+    public String toString() {
+        return "EcStory{" +
+                "ecSid=" + ecSid +
+                ", ecUid=" + ecUid +
+                ", ecScontent='" + ecScontent + '\'' +
+                ", ecTime='" + ecTime + '\'' +
+                ", ecFlag=" + ecFlag +
+                ", img=" + img +
+                ", imgs=" + imgs +
+                ", ecVoteCount=" + ecVoteCount +
+                ", user=" + user +
+                ", EcTitle='" + EcTitle + '\'' +
+                ", ecCommentCount=" + ecCommentCount +
+                ", seeCount=" + seeCount +
+                '}';
     }
 }

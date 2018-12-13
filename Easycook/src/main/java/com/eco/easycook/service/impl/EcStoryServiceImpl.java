@@ -6,6 +6,7 @@ import com.eco.easycook.pojo.*;
 import com.eco.easycook.service.EcStoryService;
 import com.eco.easycook.util.EcStoryUtil;
 import com.eco.easycook.util.ResponseVoUtil;
+import com.eco.easycook.util.StringImgToListImg;
 import com.eco.easycook.util.token.SystemCon;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -39,6 +40,9 @@ public class EcStoryServiceImpl implements EcStoryService {
 
     @Autowired
     private EcStoryUtil storyUtil;
+
+    @Autowired
+    private StringImgToListImg imgUtil;
 
     private JedisPool jedisPool = new JedisPool("120.79.198.64",6379);
 
@@ -105,8 +109,11 @@ public class EcStoryServiceImpl implements EcStoryService {
                     PageHelper.startPage(pageNum, pageSize);
                     //获取点赞最多故事
                     List<EcStory> noteNumList = mapper.selectWithVoteNum();
+
                     //获取带有
                     List<EcStory> newList = storyUtil.getStory(noteNumList, list, listSee, listVote);
+
+                    imgUtil.getListImgUrl(newList);
 
                     //对获取到故事进行点赞最多降序排序（选择排序）
                     for (int i = 0; i < newList.size(); i++) {
@@ -132,10 +139,15 @@ public class EcStoryServiceImpl implements EcStoryService {
 
                 //查询出最热的故事
                 case "最新":
-//                    PageHelper.startPage(pageNum, pageSize);
+                    PageHelper.startPage(pageNum, pageSize);
                     //获取最新故事
                     List<EcStory> putTimeList = mapper.selectWithPutTime();
-                    vo = new ResponseVo<>(1000, "success", storyUtil.getStory(putTimeList, list, listSee, listVote));
+
+
+
+                    PageInfo<EcStory> info1 = new PageInfo<>(imgUtil.getListImgUrl(storyUtil.getStory(putTimeList, list, listSee, listVote)));
+
+                    vo = new ResponseVo<>(1000, "success", info1);
                     break;
 
                 default:
@@ -169,24 +181,44 @@ public class EcStoryServiceImpl implements EcStoryService {
     public ResponseVo<EcStory> saveStory(EcStory story, String[] fileName, String token) {
 
         //验证token以及前段传来的参数
-        if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && story != null && fileName[0] !=null) {
+        if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && story != null) {
 
-            List<EcStoryimg> list = new ArrayList<>();
 
-            EcStoryimg storyimg = new EcStoryimg();
-            //循环遍历将故事表的id添加到图片对象内
-            for (String imgUrl : fileName) {
+            if (!fileName[0].isEmpty()) {
 
-                storyimg.setEcSimgurl(imgUrl);
+                List<EcStoryimg> list = new ArrayList<>();
 
-                storyimg.setStoryid(story.getEcSid());
+                EcStoryimg storyimg = new EcStoryimg();
+                //循环遍历将故事表的id添加到图片对象内
+                for (String imgUrl : fileName) {
 
-                list.add(storyimg);
+                    storyimg.setEcSimgurl(imgUrl);
+
+                    storyimg.setStoryid(story.getEcSid());
+
+                    list.add(storyimg);
+                }
+                //保存图片路径
+              int i =  storyimgMapper.inserts(list);
+
+                if (i > 0) {
+
+                    return ResponseVoUtil.setOk("success");
+                } else {
+
+                    return ResponseVoUtil.setERROR("网络不知道去哪里了....");
+                }
+
             }
-            //保存图片路径
-            storyimgMapper.inserts(list);
 
-            return new ResponseVo<>(1000, "success", mapper.insert(story));
+            int i = mapper.insert(story);
+
+            if (i == 1) {
+                return ResponseVoUtil.setOk("success");
+            } else {
+                return ResponseVoUtil.setERROR("故事发布失败....");
+            }
+
         } else {
             return ResponseVoUtil.setERROR("请填写内容");
         }

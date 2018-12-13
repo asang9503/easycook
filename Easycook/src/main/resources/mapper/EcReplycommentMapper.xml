@@ -96,7 +96,7 @@
       createtime = #{createtime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByStoryidAndCommentId" resultType="java.util.HashMap">
+  <select id="selectByStoryidAndCommentId" resultMap="MyResultMap">
     SELECT r.id, r.replyid,
      r.replycontent, r.createtime,
      u.ec_uid, u.ec_username

@@ -5,6 +5,7 @@ import com.eco.easycook.pojo.EcVote;
 import com.eco.easycook.service.EcVoteService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,8 @@ public class EcVoteController {
     @Autowired
     private EcVoteService service;
 
-    @ApiOperation(value = "保存故事的点赞次数",httpMethod = "POST",notes = "实现保存故事的点赞次数" )
-    @PostMapping("saveVote")
+    @ApiOperation(value = "保存故事的点赞次数",httpMethod = "GET",notes = "实现保存故事的点赞次数" )
+    @GetMapping("saveVote")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "storyid", value = "当前用户点击的故事的id", required=true,paramType="query"),
             @ApiImplicitParam(name = "ecUid", value = "当前点赞用户的id", required=true,paramType="query")

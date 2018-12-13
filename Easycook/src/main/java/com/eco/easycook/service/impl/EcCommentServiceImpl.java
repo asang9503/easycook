@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.JedisPool;
 
+import java.util.List;
+
 
 /**
  * @author Nvarchar
@@ -34,10 +36,23 @@ public class EcCommentServiceImpl implements EcCommentService {
 
         //验证前段传来的参数
         if (storyid == null || storyid == 0) {
+
             return ResponseVoUtil.setERROR("网络异常请重新刷新");
         } else {
+            //查询评论
+            List<EcComment> list =  mapper.select(storyid);
 
-            return new ResponseVo<>(1000, "success", mapper.select(storyid));
+            //判断是否为空
+            if (list != null) {
+                //有评论
+                return new ResponseVo<>(1000, "success", list);
+            } else {
+
+                //无评论
+                return ResponseVoUtil.setERROR("暂无评论");
+            }
+
+
         }
 
 
@@ -54,7 +69,16 @@ public class EcCommentServiceImpl implements EcCommentService {
         //验证token和前段传来的参数
         if (jedisUtil.getHash(SystemCon.TOKENHASH,"token:" + token) != null && comment != null) {
 
-            return new ResponseVo<>(1000, "success", mapper.insertSelective(comment));
+            int i =  mapper.insertSelective(comment);
+
+            if (i == 1) {
+
+                return ResponseVoUtil.setOk("success");
+            } else {
+
+                return ResponseVoUtil.setERROR("评论失败");
+            }
+
         } else {
 
             return ResponseVoUtil.setERROR("请登录");

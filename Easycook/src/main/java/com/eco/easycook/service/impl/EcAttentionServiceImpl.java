@@ -23,6 +23,7 @@ public class EcAttentionServiceImpl implements EcAttentionService {
     private EcAttentionMapper mapper;
 
     private JedisPool jedisPool = new JedisPool("120.79.198.64",6379);
+
     private JedisUtil jedisUtil = new JedisUtil(jedisPool,"root");
     /**
      *
@@ -38,9 +39,30 @@ public class EcAttentionServiceImpl implements EcAttentionService {
             EcAttention attention1 = mapper.selectByTwoId(attention);
             //判断是否关注过是则取消关注否则关注
             if (attention1 == null) {
-                return new ResponseVo<>(1000, "success", mapper.insertSelective(attention));
+
+                int i = mapper.insertSelective(attention);
+
+                if (i == 1) {
+
+                    return ResponseVoUtil.setOk("success");
+                } else {
+
+                    return ResponseVoUtil.setERROR("关注失败");
+                }
+
+
             } else {
-                return new ResponseVo<>(1000, "success", mapper.deleteByTwoId(attention));
+
+                int i = mapper.deleteByTwoId(attention);
+
+                if (i == 1) {
+
+                    return ResponseVoUtil.setOk("success");
+                } else {
+
+                    return ResponseVoUtil.setERROR("取消关注失败");
+                }
+
             }
         } else {
             return ResponseVoUtil.setERROR("网络异常请刷新");

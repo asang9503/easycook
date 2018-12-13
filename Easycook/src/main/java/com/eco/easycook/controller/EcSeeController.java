@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +24,8 @@ public class EcSeeController {
     @Autowired
     private EcSeeService service;
 
-    @ApiOperation(value = "保存故事观看次数",httpMethod = "POST",notes = "实现保存故事的观看次数" )
-    @PostMapping("saveSee")
+    @ApiOperation(value = "保存故事观看次数",httpMethod = "GET",notes = "实现保存故事的观看次数" )
+    @GetMapping("saveSee")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ecSeestoryid", value = "当前用户点击的故事的id", required=true,paramType="query"),
             @ApiImplicitParam(name = "ecUid", value = "当前点击的用户的id", required=true,paramType="query")
